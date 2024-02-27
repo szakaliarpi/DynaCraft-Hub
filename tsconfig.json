@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
@@ -18,12 +18,14 @@
     "declarationMap": true,
     "sourceMap": true,
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "vue"
     ],
     "lib": [
-      "es2015",
-      "es2016",
-      "dom"
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "scripthost"
     ],
     "paths": {
       "@/*": [
@@ -33,9 +35,10 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
   ],
   "exclude": [
     "node_modules"
