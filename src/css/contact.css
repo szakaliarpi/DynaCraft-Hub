@@ -1,0 +1,152 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffde78;
+    padding: 20px 20px;
+}
+
+@media screen and (min-width: 768px) {
+    .footer {
+        padding: 40px 100px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .footer {
+        padding: 40px 110px;
+    }
+}
+
+.contact-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.contact-icon {
+    height: 30px;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 1200px){
+    .contact-icon {
+        height: 41px;
+    }
+}
+
+.contact-icon:hover {
+    height: 50px;
+}
+
+.contact-info {
+    color: #000000;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    line-height: 30px;
+    font-weight: 300;
+}
+
+@media screen and (min-width: 768px) {
+    .contact-info {
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .contact-info {
+        font-size: 20px;
+    }
+}
+
+.get-in-touch-container {
+    padding: 20px;
+}
+
+@media screen and (min-width: 1200px) {
+    .get-in-touch-container {
+        padding: 80px 210px;
+    }
+}
+
+.mailbox {
+    width: 100%;
+}
+
+.greeting-title {
+    font-family: 'Ibarra Real Nova', serif;
+    font-weight: 700;
+    font-size: 55px;
+    line-height: 68px;
+    color: #363636;
+}
+
+label {
+    color: #cfcfcf;
+    font-family: 'Poppins', serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 50px;
+}
+
+input {
+    border-radius: 6px;
+    height: 50px;
+    width: 95%;
+    border: none;
+    color: #FF8500;
+    font-family: 'Poppins', serif;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 30px;
+    padding-left: 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffde78;
+}
+
+input:focus {
+    outline: none;
+}
+
+textarea {
+    border-radius: 6px;
+    width: -webkit-fill-available;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px rgba(0, 0, 0, 0.1);
+    border: none;
+    color: #FF8500;
+    font-family: 'Poppins', serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    padding: 20px;
+    resize: none;
+    min-height: 200px;
+    background-color: #ffde78;
+}
+
+textarea::placeholder {
+    color: #FF8500 !important;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+.footer-logo {
+    height: 100px;
+}
+
+@media screen and (min-width: 768px) {
+    .footer-logo {
+        height: 150px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .footer-logo {
+        height: 150px;
+    }
+}
+
+::placeholder {
+    color: #CFCFCF;
+}

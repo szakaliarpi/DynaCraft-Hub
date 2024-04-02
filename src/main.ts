@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import '../src/css/app.css';
 import router from "@/router";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
