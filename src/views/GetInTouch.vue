@@ -28,22 +28,22 @@
 
 			<label for="subject">Subject*</label>
 			<div id="subject" class="input-grid">
-				<div :class="{ 'button--lightgray-active': sDIsActive }"
+				<div :class="{ 'button--lightgray-active': itIsActive }"
 					 class="shadowed-button"
-					 @click="toggleClass('s-d')">
-					Strategy & Discovery
+					 @click="toggleClass('it')">
+					IT Consulting
 				</div>
 
-				<div :class="{ 'button--lightgray-active': uxUiIsActive }"
+				<div :class="{ 'button--lightgray-active': frontendIsActive }"
 					 class="shadowed-button"
-					 @click="toggleClass('ux-ui')">
-					UX & UI Design
+					 @click="toggleClass('frontend')">
+					Front-end
 				</div>
 
-				<div :class="{ 'button--lightgray-active': graphicIsActive }"
+				<div :class="{ 'button--lightgray-active': backendIsActive }"
 					 class="shadowed-button"
-					 @click="toggleClass('graphic')">
-					Graphic Design
+					 @click="toggleClass('backend')">
+					Back-end
 				</div>
 
 				<div :class="{ 'button--lightgray-active': otherIsActive }"
@@ -84,9 +84,9 @@ export default defineComponent({
 			emailAddress: '',
 			selectedSubject: '',
 			message: '',
-			sDIsActive: true,
-			uxUiIsActive: false,
-			graphicIsActive: false,
+			itIsActive: true,
+			frontendIsActive: false,
+			backendIsActive: false,
 			otherIsActive: false,
 			emailError: '',
 			messageError: '',
@@ -105,40 +105,40 @@ export default defineComponent({
 		toggleClass(type: string) {
 			this.subject = '';
 			switch (type) {
-				case 's-d':
-					this.sDIsActive = true;
+				case 'it':
+					this.itIsActive = true;
 					this.selectedSubject = type;
-					this.uxUiIsActive = false;
-					this.graphicIsActive = false;
+					this.frontendIsActive = false;
+					this.backendIsActive = false;
 					this.otherIsActive = false;
-					this.subject = 'Strategy & Discovery';
+					this.subject = 'IT Consulting';
 					break;
-				case 'ux-ui':
-					this.uxUiIsActive = true;
+				case 'frontend':
+					this.frontendIsActive = true;
 					this.selectedSubject = type;
-					this.sDIsActive = false;
-					this.graphicIsActive = false;
+					this.itIsActive = false;
+					this.backendIsActive = false;
 					this.otherIsActive = false;
-					this.subject = 'UX & UI Design';
+					this.subject = 'Front-end';
 					break;
-				case 'graphic':
-					this.graphicIsActive = true;
+				case 'backend':
+					this.backendIsActive = true;
 					this.selectedSubject = type;
-					this.sDIsActive = false;
-					this.uxUiIsActive = false;
+					this.itIsActive = false;
+					this.frontendIsActive = false;
 					this.otherIsActive = false;
-					this.subject = 'Graphic Design';
+					this.subject = 'Back-end';
 					break;
 				case 'other':
 					this.otherIsActive = true;
 					this.selectedSubject = type;
-					this.sDIsActive = false;
-					this.uxUiIsActive = false;
-					this.graphicIsActive = false;
+					this.itIsActive = false;
+					this.frontendIsActive = false;
+					this.backendIsActive = false;
 					this.subject = 'Other';
 					break;
 				default:
-					this.sDIsActive = true;
+					this.itIsActive = true;
 					this.subject = 'Strategy & Discovery';
 					break;
 			}
@@ -197,7 +197,7 @@ export default defineComponent({
 
 			db.collection("mail").doc(autoId).set({
 				id: autoId,
-				to: 'scrollrolldesign@gmail.com',
+				to: 'szakaliarpi@gmail.com',
 				message: {
 					subject: `Hello, I'm ${this.firstName} ${this.lastName}`,
 					html: htmlContent,
@@ -210,7 +210,7 @@ export default defineComponent({
 				this.lastName = '';
 				this.emailAddress = '';
 				this.message = '';
-				this.sDIsActive = true;
+				this.itIsActive = true;
 				this.isDisabled = true;
 				setTimeout(() => {
 					this.isDisabled = false;
