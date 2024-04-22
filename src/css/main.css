@@ -62,7 +62,7 @@ p {
 
 @media screen and (min-width: 1200px) {
     .main-container {
-        padding: 100px 110px 30px 110px;
+        padding: 150px 110px 30px 110px;
     }
 }
 
@@ -183,12 +183,12 @@ p {
     width: 100%;
     background: url('../assets/coding-background.png') no-repeat 100% 100%;
     background-size: cover;
-    height: 100%;
+    height: calc(100vh - 90px);
 }
 
 @media screen and (min-width: 768px) {
     .first-panel {
-        height: 100%;
+        height: calc(100vh - 90px);
     }
 }
 
@@ -199,7 +199,7 @@ p {
         background-size: cover;
         background-attachment: initial;
         background-repeat: no-repeat;
-        height: 100%;
+        height: calc(100vh - 90px);
     }
 }
 
@@ -336,9 +336,13 @@ p {
     }
 }
 
+
 .transparent-icon {
     width: 30px;
+    position: absolute;
+    bottom: 50px;
 }
+
 @media screen and (min-width: 1200px) {
     .transparent-icon {
         width: 40px;
@@ -926,7 +930,7 @@ p {
 
 @media screen and (min-width: 1200px) {
     .experience .title:first-child:after {
-        height: 630px;
+        height: calc(100vh - 300px);
     }
 }
 

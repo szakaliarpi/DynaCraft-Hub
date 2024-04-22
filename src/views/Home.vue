@@ -21,32 +21,32 @@
 					<div>
 						<p class="design-instruction">If you're looking for design excellence</p>
 						<div class="three-column-grid">
-							<router-link class="dashboard-item" to=""
+							<router-link class="dashboard-item" to="/services"
 										 @mouseover="toggleHover('web',true)" @mouseout="toggleHover('web', false)">
 								<img alt="web" class="dashboard-item-icon" :src="isWebHovered ? require('../assets/dashboard/web-coral.svg') : require('../assets/dashboard/web.svg')"/>
 								<span class="mt-10">Web</span>
 							</router-link>
-							<router-link class="dashboard-item" to=""
+							<router-link class="dashboard-item" to="/services"
 										 @mouseover="toggleHover('phone',true)" @mouseout="toggleHover('phone', false)">
 								<img alt="app" class="dashboard-item-icon" :src="isPhoneHovered ? require('../assets/dashboard/phone-coral.svg') : require('../assets/dashboard/phone.svg')"/>
 								<span class="mt-10">Application</span>
 							</router-link>
-							<router-link class="dashboard-item" to=""
+							<router-link class="dashboard-item" to="/services"
 										 @mouseover="toggleHover('software',true)" @mouseout="toggleHover('software', false)">
 								<img alt="software" class="dashboard-item-icon" :src="isSoftwareHovered ? require('../assets/dashboard/software-coral.svg') : require('../assets/dashboard/software.svg')"/>
 								<span class="mt-10">Software</span>
 							</router-link>
-							<router-link class="dashboard-item" to=""
+							<router-link class="dashboard-item" to="/services"
 										 @mouseover="toggleHover('data',true)" @mouseout="toggleHover('data', false)">
 								<img alt="data" class="dashboard-item-icon" :src="isDataHovered ? require('../assets/dashboard/marketing-coral.svg') : require('../assets/dashboard/marketing.svg')"/>
 								<span class="mt-10">Data</span>
 							</router-link>
-							<router-link class="dashboard-item" to=""
+							<router-link class="dashboard-item" to="/services"
 										 @mouseover="toggleHover('brand',true)" @mouseout="toggleHover('brand', false)">
 							<img alt="brand" class="dashboard-item-icon" :src="isBrandHovered ? require('../assets/dashboard/brand-coral.svg') : require('../assets/dashboard/brand.svg')"/>
 								<span class="mt-10">Brand</span>
 							</router-link>
-							<router-link class="dashboard-item" to=""
+							<router-link class="dashboard-item" to="/services"
 										 @mouseover="toggleHover('rework',true)" @mouseout="toggleHover('rework', false)">
 								<img alt="rework" class="dashboard-item-icon" :src="isReworkHovered ? require('../assets/dashboard/redesign-coral.svg') : require('../assets/dashboard/redesign.svg')"/>
 								<span class="mt-10">Rework</span>
@@ -54,11 +54,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="text-center">
-					<img alt="transparent-icon" class="transparent-icon" src="../assets/transparent-logo.svg"/>
-				</div>
 			</div>
-
+			<div class="text-center">
+				<img alt="transparent-icon" class="transparent-icon" src="../assets/transparent-logo.svg"/>
+			</div>
 		</div>
 
 		<div class="work-group-container">

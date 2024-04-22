@@ -161,8 +161,6 @@
 								<ul>
 									<li>as Fullstack developer</li>
 								</ul>
-
-
 							</div>
 						</div>
 					</div>
@@ -175,7 +173,8 @@
 
 						<div class="pl-90">
 							<p class="mb-100">
-								The term "debugging" was coined when Grace Hopper removed a moth from a computer, solving a glitch, hence the term "debugging."							</p>
+								The term "debugging" was coined when Grace Hopper removed a moth from a computer, solving a glitch, hence the term "debugging."
+							</p>
 						</div>
 					</div>
 				</div>

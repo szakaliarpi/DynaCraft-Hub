@@ -82,6 +82,7 @@
 .button--white--coral:hover {
     background-color: #FF8500;
     color: #FFFFFF;
+    border: 3px #FFFFFF solid;
 }
 
 .button--coral {
