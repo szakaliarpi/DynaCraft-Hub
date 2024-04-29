@@ -121,7 +121,7 @@
 			</div>
 
 			<div class="text-center mt-30">
-				<router-link class="button button--coral" to="/get-in-touch">reach out to me</router-link>
+				<router-link class="button button--orange" to="/get-in-touch">reach out to me</router-link>
 			</div>
 		</div>
 

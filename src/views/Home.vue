@@ -67,11 +67,11 @@
 				<span class="work-group"
 					  v-bind:class="{ 'work-group-active' : isActive === 'front-end'}">Front-end</span>
 			</div>
-			<div class="work-group-item" v-on:click="setActive('graphic')">
+			<div class="work-group-item" v-on:click="setActive('back-end')">
 				<img alt="" class="work-icon center" src="../assets/backend.svg"
-					 v-bind:class="{ 'work-icon-active' : isActive === 'graphic'}"/>
+					 v-bind:class="{ 'work-icon-active' : isActive === 'back-end'}"/>
 				<span class="work-group"
-					  v-bind:class="{ 'work-group-active': isActive === 'graphic'}">Back-end</span>
+					  v-bind:class="{ 'work-group-active': isActive === 'back-end'}">Back-end</span>
 			</div>
 		</div>
 
@@ -79,48 +79,7 @@
 			<div class="text-center mb-50">
 				<img alt="case-studies" class="case-studies " src="../assets/case-studies.svg"/>
 			</div>
-			<div>
-				<div class="work-container">
-					<img alt="random1" class="work-container-image" src="../assets/randoms/random1.jpg"/>
-					<div class="work-container-text">
-						<div class="work-container-title">Donec in libero</div>
-						<div class="work-container-description">
-							Nam consequat commodo ligula, eget congue purus lacinia id.
-						</div>
-						<div>
-							<router-link class="button button--white" to="/case-study/kompozit">see more
-							</router-link>
-						</div>
-					</div>
-				</div>
-
-				<div class="work-container">
-					<img alt="random2" class="work-container-image" src="../assets/randoms/random2.jpg"/>
-					<div class="work-container-text">
-						<div class="work-container-title">Vivamus consectetur</div>
-						<div class="work-container-description">
-							Aenean non purus in risus dignissim congue.
-						</div>
-						<div>
-							<router-link class="button button--white" to="/case-study/romanian-friend">see more</router-link>
-						</div>
-					</div>
-				</div>
-
-				<div class="work-container">
-					<img alt="random3" class="work-container-image" src="../assets/randoms/random3.jpg"/>
-					<div class="work-container-text">
-						<div class="work-container-title">Curabitur vulputate</div>
-						<div class="work-container-description">
-							Vivamus tempus tempor consequat,
-						</div>
-						<div>
-							<router-link class="button button--white" to="/case-study/hotbed">see more
-							</router-link>
-						</div>
-					</div>
-				</div>
-			</div>
+			<CaseStudy/>
 		</div>
 
 		<div class="container" v-show="isActive === 'front-end'">
@@ -136,7 +95,7 @@
 					</div>
 					<div class="post-bottom-container">
 						<div class="post-date">Nov 28th, 2023</div>
-						<a class="small-button button--coral"
+						<a class="small-button button--orange"
 						   href="https://www.google.com">Read more</a>
 					</div>
 				</div>
@@ -149,7 +108,7 @@
 					</div>
 					<div class="post-bottom-container">
 						<div class="post-date">Sept 20th, 2023</div>
-						<a class="small-button button--coral"
+						<a class="small-button button--orange"
 						   href="https://www.facebook.com">Read
 							more</a>
 					</div>
@@ -163,7 +122,7 @@
 					</div>
 					<div class="post-bottom-container">
 						<div class="post-date">Aug 25th, 2023</div>
-						<a class="small-button button--coral"
+						<a class="small-button button--orange"
 						   href="https://www.instagram.com">Read
 							more</a>
 					</div>
@@ -171,23 +130,16 @@
 			</div>
 		</div>
 
-		<div class="design-container" v-show="isActive === 'graphic'">
+		<div class="design-container" v-show="isActive === 'back-end'">
 			<div class="text-center mb-50">
-				<img alt="logofolio" class="logofolio" src="../assets/logofolio..svg"/>
+				<img alt="backend" class="backend" src="../assets/logofolio..svg"/>
 			</div>
 
-			<div class="logofolio-container">
-				<router-link class="logofolio-grid-item" id="pertu" to="/case-study/pertu"><img src="../assets/logofolio/pertu-logo.svg" alt="logo1"></router-link>
-				<div class="logofolio-grid-item"><img src="../assets/logofolio/publow-logo.svg" alt="logo2"></div>
-				<div class="logofolio-grid-item"><img src="../assets/logofolio/mullmar-logo.svg" alt="logo3"></div>
-				<div class="logofolio-grid-item"><img src="../assets/logofolio/kompozit-logo.svg" alt="logo4"></div>
-				<div class="logofolio-grid-item"><img src="../assets/logofolio/folkapp-logo.svg" alt="logo5"></div>
-				<div class="logofolio-grid-item"><img src="../assets/logofolio/scroll-roll-design-logo.svg" alt="logo6"></div>
-				<div class="logofolio-grid-item"><img src="../assets/logofolio/expoil-loog.svg" alt="logo7"></div>
-				<div class="logofolio-grid-item"><img src="../assets/logofolio/tekergo-logo.svg" alt="logo8"></div>
-				<div class="logofolio-grid-item"><img src="../assets/logofolio/wire-donkey-logo.svg" alt="logo9"></div>
-				<div class="logofolio-grid-item"><img src="../assets/logofolio/element-logo.svg" alt="logo10"></div>
-				<div class="logofolio-grid-item"><img src="../assets/logofolio/night-manager-logo.svg" alt="logo11"></div>
+			<div class="backend-container">
+				<a class="backend-grid-item" id="php" href="https://www.php.net/"><img src="../assets/backend/php-logo.png" alt="php"></a>
+				<a class="backend-grid-item" id="firebase" href="https://firebase.google.com/"><img src="../assets/backend/firebase-logo.png" alt="firebase"></a>
+				<a class="backend-grid-item" id="laravel" href="https://laravel.com/"><img src="../assets/backend/laravel-logo.jpg" alt="laravel"></a>
+				<a class="backend-grid-item" id="mysql" href="https://www.mysql.com/"><img src="../assets/backend/mysql-logo.png" alt="mysql"></a>
 			</div>
 
 		</div>
@@ -200,12 +152,15 @@ import Contact from "@/components/Contact.vue";
 import Navbar from "@/components/Navbar.vue";
 import {defineComponent} from "vue";
 import {RouteLocationNormalized, RouteLocationNormalizedLoaded} from "vue-router";
+import CaseStudy from "@/components/case-study/CaseStudy.vue";
 
 export default defineComponent({
 	components: {
+		CaseStudy,
 		Contact,
 		Navbar
 	},
+
 	data() {
 		return {
 			isActive: 'front-end',
@@ -215,6 +170,7 @@ export default defineComponent({
 			isDataHovered: false,
 			isBrandHovered: false,
 			isReworkHovered: false,
+			caseStudies: []
 		};
 	},
 	methods: {
@@ -249,6 +205,7 @@ export default defineComponent({
 					break;
 			}
 		},
+
 	}
 });
 </script>

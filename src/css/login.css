@@ -1,29 +1,45 @@
-body, html {
-    height: 100%;
+body {
     margin: 0;
+}
+.login-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
-.log-in-container {
+.login-container {
     max-width: 400px;
-    width: 100%;
+    max-height: 400px;
     padding: 20px;
+    position: relative;
+    border-radius: 30px;
+    border: 3px solid #FF8500;
 }
 
-.form {
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.input-group {
+    margin-bottom: 20px;
 }
 
-label {
+.label {
     display: block;
     margin-bottom: 5px;
 }
+
+.input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 
 
 

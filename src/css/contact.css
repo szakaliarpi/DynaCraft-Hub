@@ -68,10 +68,6 @@
     }
 }
 
-.mailbox {
-    width: 100%;
-}
-
 .greeting-title {
     font-family: 'Ibarra Real Nova', serif;
     font-weight: 700;
@@ -105,6 +101,10 @@ input {
 
 input:focus {
     outline: none;
+}
+
+input::placeholder {
+    color: #FF8500 !important;
 }
 
 textarea {

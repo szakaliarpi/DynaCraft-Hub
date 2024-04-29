@@ -1,18 +1,18 @@
 <template>
-	<div>
-		<div class="log-in-container">
-			<div class="">
+	<div class="login-wrapper">
+		<div class="login-container">
+			<div class="input-group">
 				<label for="email">E-mail</label>
-				<input id="email" v-model="email"/>
+				<input id="email" v-model="email" />
 			</div>
 
-			<div class="">
+			<div class="input-group">
 				<label for="password">Password</label>
-				<input id="password" v-model="password" type="password"/>
+				<input id="password" v-model="password" type="password" @keyup.enter="handleEnterKey" />
 			</div>
 
 			<div class="text-center">
-				<div :class="{ 'disabled': isDisabled }" class="button button--coral" @click="login">Log in</div>
+				<div :class="{ 'disabled': isDisabled }" class="button button--orange" @click="login">Log in</div>
 			</div>
 		</div>
 	</div>
@@ -37,17 +37,16 @@ export default defineComponent({
 			auth.signInWithEmailAndPassword(this.email, this.password)
 				.then(() => {
 					this.$router.push('/admin');
-					alert('Successfully logged in');
-					console.error('Login error');
 				})
 				.catch(error => {
 					alert(error.message);
 				});
-		}
+		},
+		handleEnterKey(event: KeyboardEvent) {
+			if (event.key === "Enter") {
+				this.login();
+			}
+		},
 	}
 });
 </script>
-
-<style scoped>
-
-</style>

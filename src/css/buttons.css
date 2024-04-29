@@ -85,12 +85,12 @@
     border: 3px #FFFFFF solid;
 }
 
-.button--coral {
+.button--orange {
     background-color: #FF8500;
     color: #FFFFFF;
 }
 
-.button--coral:hover {
+.button--orange:hover {
     background-color: #FF8500;
     color: #FFFFFF;
 }

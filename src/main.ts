@@ -5,6 +5,7 @@ import router from "@/router";
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCMbjo27NzJnrKYHXGabNE_WeRf_PF7ZcE",
@@ -20,8 +21,6 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 const auth = firebase.auth();
 export { auth, db };
-
-console.log(firebaseApp);
 
 createApp(App).use(router).mount('#app')
 

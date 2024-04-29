@@ -62,6 +62,11 @@ p {
 
 @media screen and (min-width: 1200px) {
     .main-container {
+        padding: 100px 110px 30px 110px;
+    }
+}
+@media screen and (min-width: 1600px) {
+    .main-container {
         padding: 150px 110px 30px 110px;
     }
 }
@@ -389,12 +394,13 @@ p {
     font-family: Poppins, 'sans-serif';
     border-radius: 20px;
     margin-bottom: 30px;
+    position: relative;
 }
 
 @media screen and (min-width: 768px) {
     .work-container {
         display: grid;
-        grid-template-columns: 1.3fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
         margin-bottom: 30px;
         padding: 10px 70px 10px 10px;
     }
@@ -406,7 +412,7 @@ p {
 
 .work-container-image {
     height: 150px;
-    max-width: 100%;
+    max-width: 600px;
     border-radius: 20px;
 }
 
@@ -508,12 +514,12 @@ p {
 }
 
 @media screen and (min-width: 1200px) {
-    .logofolio {
+    .backend {
         height: 50px;
     }
 }
 
-.logofolio-container {
+.backend-container {
     /*display: grid;*/
     /*grid-template-columns: repeat(4, 1fr);*/
     /*justify-content: center;*/
@@ -527,22 +533,30 @@ p {
     margin: auto;
 }
 
-.logofolio-grid-item {
-    /*width: 300px;*/
-    /*height: 300px;*/
-    /*overflow: hidden;*/
-    width: 100%;
-    border-radius: 8px;
+.backend-grid-item {
+    width: 300px;
+    height: 300px;
     overflow: hidden;
+    border-radius: 8px;
 }
 
-.logofolio-grid-item img {
+.backend-grid-item img {
     width: 100%;
     height: auto;
     display: block;
 }
 
-#pertu img:hover {
+#php:hover {
+    transform: scale(1.05);
+}
+
+#firebase:hover {
+    transform: scale(1.05);
+}
+#laravel:hover {
+    transform: scale(1.05);
+}
+#mysql:hover {
     transform: scale(1.05);
 }
 
@@ -652,13 +666,13 @@ p {
 
 @media screen and (min-width: 768px) {
     .work-icon {
-        height: 70px;
+        height: 60px;
     }
 }
 
 @media screen and (min-width: 1200px) {
     .work-icon {
-        height: 100px;
+        height: 80px;
     }
 }
 

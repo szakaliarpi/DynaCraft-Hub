@@ -2,26 +2,25 @@
 	<div>
 		<Navbar></Navbar>
 		<div class="get-in-touch-container">
-			<!--			<img alt="mailbox" class="mailbox mb-50" src="../assets/contact/mailbox.svg"/>-->
 			<div class="text-center mb-50">
 				<img alt="get-in-touch" class="case-studies" src="../assets/get-in-touch.svg"/>
 			</div>
 			<div class="input-grid">
 				<div class="flex-1">
 					<label for="first-name">First name*</label>
-					<input id="first-name" v-model="firstName" @input="validateFirstName"/>
+					<input id="first-name" type="text" v-model="firstName" @input="validateFirstName"/>
 					<div class="error-message">{{ firstNameError }}</div>
 				</div>
 
 				<div class="flex-1">
 					<label for="last-name">Last name*</label>
-					<input id="last-name" v-model="lastName" @input="validateLastName"/>
+					<input id="last-name" type="text" v-model="lastName" @input="validateLastName"/>
 					<div class="error-message">{{ lastNameError }}</div>
 				</div>
 
 				<div class="flex-1">
 					<label for="email">E-mail*</label>
-					<input id="email" v-model="emailAddress" @input="validateEmail"/>
+					<input id="email" type="text" v-model="emailAddress" @input="validateEmail"/>
 					<div class="error-message">{{ emailError }}</div>
 				</div>
 			</div>
@@ -58,7 +57,7 @@
 					  @input="validateMessage"/>
 			<div class="error-message mb-50">{{ messageError }}</div>
 			<div class="text-center">
-				<div class="button button--coral" :class="{ 'disabled': isDisabled }" @click="submitForm">submit</div>
+				<div class="button button--orange" :class="{ 'disabled': isDisabled }" @click="submitForm">submit</div>
 			</div>
 		</div>
 		<Contact/>
@@ -216,7 +215,7 @@ export default defineComponent({
 					this.isDisabled = false;
 				}, 5000);
 			}).catch(error => {
-				alert('Sending you message failed! try again later');
+				alert('Sending message failed! try again later');
 				console.log(error);
 			});
 		},
