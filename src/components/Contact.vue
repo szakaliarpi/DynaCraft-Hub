@@ -9,13 +9,13 @@
 
 			<div class="contact-container">
 				<a href="https://www.linkedin.com/">
-					<img alt="linkedin" class="contact-icon" src="../assets/contact/linkedin.svg"/>
+					<img alt="linkedin" id="linkedin" class="contact-icon" src="../assets/contact/linkedin.svg"/>
 				</a>
 				<a href="https://www.instagram.com//">
-					<img alt="instagram" class="contact-icon" src="../assets/contact/instagram.svg"/>
+					<img alt="instagram" id="instagram" class="contact-icon" src="../assets/contact/instagram.svg"/>
 				</a>
 				<a href="https://www.facebook.com//">
-					<img alt="facebook" class="contact-icon" src="../assets/contact/facebook.svg"/>
+					<img alt="facebook" id="facebook" class="contact-icon" src="../assets/contact/facebook.svg"/>
 				</a>
 			</div>
 		</div>

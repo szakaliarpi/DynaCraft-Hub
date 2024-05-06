@@ -1,0 +1,133 @@
+.admin {
+    background-color: #FF8500;
+    height: 100vh;
+}
+
+.admin-navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #FF8500;
+    padding: 10px;
+    border-bottom: 3px solid #000;
+}
+.navbar-icon {
+    height: 30px;
+    cursor: pointer;
+}
+
+.admin-icon {
+    height: 50px;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.admin-icon-active {
+    opacity: 1;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    font-family: Poppins, 'sans-serif';
+    font-weight: 600;
+    font-size: 18px;
+    color: #000;
+    text-align: center;
+    padding: 15px;
+    border-bottom: 3px solid #000;
+}
+
+.admin-group-item {
+    cursor: pointer;
+}
+
+.admin-group-item {
+    border-right: 2px solid #000;
+
+}
+
+.admin-group-item:last-child {
+    border-right: none;
+}
+
+.admin-group {
+    opacity: 0.5;
+}
+
+.admin-group-active {
+    color: #000;
+    border-bottom: 3px #000 solid;
+    opacity: 1;
+}
+
+.source-container {
+    padding: 80px 50px;
+    background-color: #000;
+    position: relative;
+}
+
+.toolbar {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.toolbar img {
+    width: 35px;
+    cursor: pointer;
+}
+
+.modal {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: rgba(0,0,0,.5);
+    width: 400px;
+    padding: 10px 20px 20px 20px;
+    border: 2px solid #FF8500;
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.add-box {
+    background-color: #FF8500;
+    border-radius: 50%;
+    position: absolute;
+    top: -60px;
+    right: -30px;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.file-name {
+    font-family: Poppins, 'sans-serif';
+    font-weight: 600;
+    font-size: 18px;
+    color: #FF8500;
+    display: flex;
+}
+
+.delete {
+    height: 25px;
+    cursor: pointer;
+    margin-left: 10px;
+}

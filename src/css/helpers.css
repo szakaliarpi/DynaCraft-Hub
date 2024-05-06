@@ -356,3 +356,10 @@ ol {
 .fw-300 {
     font-weight: 300;
 }
+
+.d-none {
+    display: none;
+}
+.is-orange {
+    color: #FF8500;
+}

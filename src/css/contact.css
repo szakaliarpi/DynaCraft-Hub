@@ -34,10 +34,6 @@
     }
 }
 
-.contact-icon:hover {
-    height: 50px;
-}
-
 .contact-info {
     color: #000000;
     font-family: 'Poppins', sans-serif;
@@ -149,4 +145,16 @@ textarea:focus {
 
 ::placeholder {
     color: #CFCFCF;
+}
+
+#linkedin:hover {
+    transform: scale(1.5);
+}
+
+#instagram:hover {
+    transform: scale(1.5);
+}
+
+#facebook:hover {
+    transform: scale(1.5);
 }

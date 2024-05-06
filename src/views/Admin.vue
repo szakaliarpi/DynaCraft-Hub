@@ -74,7 +74,6 @@
 <script lang="ts">
 import Navbar from "@/components/Navbar.vue";
 import {defineComponent} from "vue";
-import firebase from "firebase/compat/app";
 import AdminNavbar from "@/components/AdminNavbar.vue";
 import CaseStudies from "@/components/admin/CaseStudies.vue";
 import AboutMe from "@/components/admin/AboutMe.vue";
@@ -93,40 +92,12 @@ export default defineComponent({
 	data() {
 		return {
 			isActive: 'case-studies',
-			title: '',
-			description: '',
-			link: '',
-			image: '',
-			fileItem: Blob,
-			fileName: '',
 		};
 	},
 	methods: {
 		setActive(group: string): void {
 			this.isActive = group;
 		},
-		fileChanged(e) {
-			this.fileItem = e.target.files[0];
-			this.fileName = this.fileItem.name;
-				///csak ennyi leessz itt, ennel lejjeb a save gomb kor
-
-			console.log(firebase.storage());
-
-			let storageRef = firebase.storage().ref("images/"+this.fileName);
-			let uploadTask = storageRef.put(this.fileItem as any);
-
-			uploadTask.on("state_changed", (snapshot)=>{
-				console.log(snapshot)
-			}, (error)=>{
-				console.log(error)
-			}, ()=>{
-				uploadTask.snapshot.ref.getDownloadURL().then((url)=>{
-					console.log(url);
-					//itt feltolteni az adatot firestore ba, mint az email
-				})
-			})
-
-		}
 	},
 });
 </script>
