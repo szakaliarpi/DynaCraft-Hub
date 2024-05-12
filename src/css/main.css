@@ -926,29 +926,6 @@ p {
     left: -50px;
 }
 
-.experience .title:first-child:after {
-    background: #cfcfcf;
-    content: '';
-    height: 850px;
-    width: 2px;
-    position: absolute;
-    left: -41px;
-    top: 0;
-}
-
-@media screen and (min-width: 768px) {
-    .experience .title:first-child:after {
-        height: 600px;
-    }
-}
-
-@media screen and (min-width: 1200px) {
-    .experience .title:first-child:after {
-        height: calc(100vh - 300px);
-    }
-}
-
-
 .experience .date {
     color: #cfcfcf;
     font-family: 'Poppins', sans-serif;

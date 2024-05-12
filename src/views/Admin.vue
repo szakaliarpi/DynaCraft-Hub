@@ -33,42 +33,18 @@
 		</div>
 
 		<div v-show="isActive === 'case-studies'">
-			<CaseStudies></CaseStudies>
+			<CaseStudies :component="isActive"></CaseStudies>
 		</div>
 		<div v-show="isActive === 'posts'">
-			<Posts></Posts>
+			<Posts :component="isActive"></Posts>
 		</div>
 		<div v-show="isActive === 'about-me'">
-			<AboutMe></AboutMe>
+			<About :component="isActive"></About>
 		</div>
 		<div v-show="isActive === 'services'">
-			<Services></Services>
+			<Services :component="isActive"></Services>
 		</div>
-
-<!--		<div class="is-flex">
-			<div class="flex-1">
-				<label for="first-name">title</label>
-				<input id="first-name" type="text" v-model="title"/>
-			</div>
-
-			<div class="flex-1">
-				<label for="first-name">description</label>
-				<input id="last-name" type="text" v-model="description"/>
-			</div>
-
-			<div class="flex-1">
-				<label for="email">link</label>
-				<input id="last-name" type="text" v-model="link"/>
-			</div>
-
-			<div class="flex-1">
-				<label for="email">image</label>
-				<input id="last-name" type="file" v-on:change="fileChanged($event)"/>
-			</div>
-		</div>-->
-
 	</div>
-
 </template>
 
 <script lang="ts">
@@ -76,9 +52,10 @@ import Navbar from "@/components/Navbar.vue";
 import {defineComponent} from "vue";
 import AdminNavbar from "@/components/AdminNavbar.vue";
 import CaseStudies from "@/components/admin/CaseStudies.vue";
-import AboutMe from "@/components/admin/AboutMe.vue";
+import AboutMe from "@/components/admin/About.vue";
 import Services from "@/components/admin/Services.vue";
 import Posts from "@/components/admin/Posts.vue";
+import About from "@/components/admin/About.vue";
 
 export default defineComponent({
 	components: {
@@ -88,6 +65,7 @@ export default defineComponent({
 		Navbar,
 		AdminNavbar,
 		Posts,
+		About
 	},
 	data() {
 		return {
@@ -97,7 +75,7 @@ export default defineComponent({
 	methods: {
 		setActive(group: string): void {
 			this.isActive = group;
-		},
+		}
 	},
 });
 </script>

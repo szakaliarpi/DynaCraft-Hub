@@ -47,6 +47,7 @@ export default defineComponent({
 				this.login();
 			}
 		},
+
 	}
 });
 </script>

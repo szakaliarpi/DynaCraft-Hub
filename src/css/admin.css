@@ -77,8 +77,12 @@
 }
 
 .toolbar img {
-    width: 35px;
+    width: 30px;
     cursor: pointer;
+}
+
+.toolbar img:hover {
+    transform: scale(1.3);
 }
 
 .modal {
@@ -95,13 +99,19 @@
 .modal-content {
     background-color: rgba(0,0,0,.5);
     width: 400px;
-    padding: 10px 20px 20px 20px;
+    padding: 5px 20px 5px 20px;
     border: 2px solid #FF8500;
     border-radius: 8px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    overflow-y: auto;
+    max-height: 95vh;
+}
+
+.modal-content::-webkit-scrollbar {
+    display: none;
 }
 
 .add-box {
@@ -126,8 +136,26 @@
     display: flex;
 }
 
-.delete {
+.remove {
     height: 25px;
     cursor: pointer;
     margin-left: 10px;
 }
+
+.modal-image-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #FF8500;
+}
+
+.upload {
+    height: 40px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.modal-image {
+    width: 300px;
+}
+

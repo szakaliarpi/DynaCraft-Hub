@@ -1,11 +1,11 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import Home from "@/views/Home.vue";
-import NiceToMeetYou from "@/views/NiceToMeetYou.vue";
 import GetInTouch from "@/views/GetInTouch.vue";
 import Services from "@/views/Services.vue";
 import Admin from "@/views/Admin.vue";
 import Login from "@/views/Login.vue";
 import {auth} from "@/main";
+import AboutMe from "@/components/AboutMe.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -16,7 +16,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/nice-to-meet-you',
         name: 'nice-to-meet-you',
-        component: NiceToMeetYou
+        component: AboutMe
     },
     {
         path: '/services',
@@ -66,4 +66,4 @@ router.beforeEach((to, from, next) => {
     }
 });
 
-export default router
+export default router;

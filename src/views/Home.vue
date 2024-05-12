@@ -85,49 +85,7 @@
 		<div class="container" v-show="isActive === 'front-end'">
 			<h2>Can’t get enough?</h2>
 			<span class="blog-post">Check out some interesting posts.</span>
-
-			<div class="post-container">
-				<div class="post-box">
-					<div class="post-title">WHERE DOES IT COME FROM?</div>
-					<div class="post-description">
-						Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-						Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-					</div>
-					<div class="post-bottom-container">
-						<div class="post-date">Nov 28th, 2023</div>
-						<a class="small-button button--orange"
-						   href="https://www.google.com">Read more</a>
-					</div>
-				</div>
-
-				<div class="post-box">
-					<div class="post-title">WHY DO WE USE IT?</div>
-					<div class="post-description">
-						It is a long established fact that a reader will be distracted by
-						the readable content of a page when looking at its layout.
-					</div>
-					<div class="post-bottom-container">
-						<div class="post-date">Sept 20th, 2023</div>
-						<a class="small-button button--orange"
-						   href="https://www.facebook.com">Read
-							more</a>
-					</div>
-				</div>
-
-				<div class="post-box">
-					<div class="post-title">WHERE CAN I GET SOME?</div>
-					<div class="post-description">
-						Contrary to popular belief, Lorem Ipsum is not simply random text.
-						It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.
-					</div>
-					<div class="post-bottom-container">
-						<div class="post-date">Aug 25th, 2023</div>
-						<a class="small-button button--orange"
-						   href="https://www.instagram.com">Read
-							more</a>
-					</div>
-				</div>
-			</div>
+			<Post/>
 		</div>
 
 		<div class="design-container" v-show="isActive === 'back-end'">
@@ -152,13 +110,15 @@ import Contact from "@/components/Contact.vue";
 import Navbar from "@/components/Navbar.vue";
 import {defineComponent} from "vue";
 import {RouteLocationNormalized, RouteLocationNormalizedLoaded} from "vue-router";
-import CaseStudy from "@/components/case-study/CaseStudy.vue";
+import CaseStudy from "@/components/CaseStudy.vue";
+import Post from "@/components/Post.vue";
 
 export default defineComponent({
 	components: {
 		CaseStudy,
 		Contact,
-		Navbar
+		Navbar,
+		Post
 	},
 
 	data() {

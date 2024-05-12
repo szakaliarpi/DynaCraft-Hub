@@ -23,23 +23,23 @@ export default defineComponent({
 	props: {
 		toolName: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		toolLevel: {
-			type: Number,
-			required: true,
+			type: String,
+			required: false,
 		},
 		languages: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		languageLevel: {
-			type: Number,
-			required: true,
+			type: String,
+			required: false,
 		},
 		isTool: {
 			type: Boolean,
-			required: true,
+			required: false,
 		},
 	},
 });

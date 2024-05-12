@@ -70,6 +70,8 @@ import Navbar from "@/components/Navbar.vue";
 import {db} from "@/main";
 import {defineComponent} from "vue";
 import {RouteLocationNormalized, RouteLocationNormalizedLoaded} from "vue-router";
+import {Messages, ContactInfo, EmailTemplate} from "@/config/config";
+
 
 export default defineComponent({
 	components: {
@@ -150,22 +152,22 @@ export default defineComponent({
 			let isValid = true;
 
 			if (!this.firstName || !this.firstName.trim()) {
-				this.firstNameError = 'First name is required';
+				this.firstNameError = Messages.first_name_required;
 				isValid = false;
 			}
 
 			if (!this.lastName || !this.lastName.trim()) {
-				this.lastNameError = 'Last name is required';
+				this.lastNameError = Messages.last_name_required;
 				isValid = false;
 			}
 
 			if (!this.emailAddress || !this.emailAddress.trim()) {
-				this.emailError = 'Email is required';
+				this.emailError = Messages.email_required;
 				isValid = false;
 			}
 
 			if (!this.message || !this.message.trim()) {
-				this.messageError = 'Message is required';
+				this.messageError = Messages.message_required;
 				isValid = false;
 			}
 
@@ -174,37 +176,22 @@ export default defineComponent({
 			}
 
 			let autoId = db.collection("mail").doc().id;
-			let htmlContent =
-				`<div style="font-size: 16px;">
-				 <div style="display: flex;">
-					<div style="font-size: 16px; font-weight: bold; margin-right: 10px;">Full Name:</div>
-					<div style="font-size: 16px;">${this.firstName} ${this.lastName}</div>
-				</div>
-				<div style="display: flex;">
-					<div style="font-size: 16px; font-weight: bold; margin-right: 10px;">Email:</div>
-					<div style="font-size: 16px;">${this.emailAddress}</div>
-				</div>
-				 <div style="display: flex;">
-					<div style="font-size: 16px; font-weight: bold; margin-right: 10px;">Subject:</div>
-					<div style="font-size: 16px;">${this.subject}</div>
-				</div>
-				 <div style="display: flex;">
-					<div style="font-size: 16px; font-weight: bold; margin-right: 10px;">Message:</div>
-					<p style="margin: 0">${this.message}</p>
-				</div>
-		  	</div>`;
+			const htmlContent = EmailTemplate.replace("{{firstName}}", this.firstName)
+				.replace("{{lastName}}", this.lastName)
+				.replace("{{emailAddress}}", this.emailAddress)
+				.replace("{{subject}}", this.subject)
+				.replace("{{message}}", this.message);
 
 			db.collection("mail").doc(autoId).set({
 				id: autoId,
-				to: 'szakaliarpi@gmail.com',
+				to: ContactInfo.email,
 				message: {
-					subject: `Hello, I'm ${this.firstName} ${this.lastName}`,
+					subject: `${Messages.subject} ${this.firstName} ${this.lastName}`,
 					html: htmlContent,
-					text: 'Message received',
+					text: Messages.received,
 				}
 			}).then(response => {
-				alert('Your message has been sent!');
-				console.log(response);
+				alert(Messages.sent);
 				this.firstName = '';
 				this.lastName = '';
 				this.emailAddress = '';
@@ -214,27 +201,27 @@ export default defineComponent({
 				setTimeout(() => {
 					this.isDisabled = false;
 				}, 5000);
+				console.log(response);
 			}).catch(error => {
-				alert('Sending message failed! try again later');
+				alert(Messages.sending_failed);
 				console.log(error);
 			});
 		},
 
 		validateFirstName() {
 			if (!this.firstName || !this.firstName.trim()) {
-				console.log('alma')
-				this.firstNameError = 'First name is required';
+				this.firstNameError = Messages.first_name_required;
 			} else if (this.firstName.trim().length < 2 || this.firstName.trim().length > 50) {
-				this.firstNameError = 'First name must be between 2 and 50 characters';
+				this.firstNameError = Messages.character_restriction;
 			} else {
 				this.firstNameError = '';
 			}
 		},
 		validateLastName() {
 			if (!this.lastName || !this.lastName.trim()) {
-				this.lastNameError = 'Last name is required';
+				this.lastNameError = Messages.last_name_required;
 			} else if (this.lastName.trim().length < 2 || this.lastName.trim().length > 50) {
-				this.lastNameError = 'Last name must be between 2 and 50 characters';
+				this.lastNameError = Messages.character_restriction;
 			} else {
 				this.lastNameError = '';
 			}
@@ -243,18 +230,18 @@ export default defineComponent({
 			const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 			if (!this.emailAddress || !this.emailAddress.trim()) {
-				this.emailError = 'Email is required';
+				this.emailError = Messages.email_required;
 			} else if (!emailRegex.test(this.emailAddress.trim())) {
-				this.emailError = 'Invalid email address';
+				this.emailError = Messages.invalid_email;
 			} else {
 				this.emailError = '';
 			}
 		},
 		validateMessage() {
 			if (!this.message || !this.message.trim()) {
-				this.messageError = 'Message is required';
+				this.messageError = Messages.message_required;
 			} else if (this.message.trim().length > this.maxMessageLength - 1) {
-				this.messageError = 'Message cannot exceed 500 characters';
+				this.messageError = Messages.message_restriction;
 				this.message = this.message.trim().substring(0, this.maxMessageLength);
 			} else {
 				this.messageError = '';

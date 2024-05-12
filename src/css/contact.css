@@ -115,7 +115,7 @@ textarea {
     line-height: 30px;
     padding: 20px;
     resize: none;
-    min-height: 200px;
+    min-height: 100px;
     background-color: #ffde78;
 }
 
