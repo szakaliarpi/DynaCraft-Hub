@@ -26,7 +26,7 @@ export default defineComponent({
 			required: false,
 		},
 		toolLevel: {
-			type: String,
+			type: Number,
 			required: false,
 		},
 		languages: {
@@ -34,7 +34,7 @@ export default defineComponent({
 			required: false,
 		},
 		languageLevel: {
-			type: String,
+			type: Number,
 			required: false,
 		},
 		isTool: {

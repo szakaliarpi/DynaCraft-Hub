@@ -4,4 +4,5 @@ export type CaseStudyType = {
     description: string;
     link: string;
     image: string;
+    timestamp: number;
 };

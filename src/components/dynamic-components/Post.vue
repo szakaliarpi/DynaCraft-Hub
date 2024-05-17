@@ -1,13 +1,13 @@
 <template>
-	<div>
-		<div v-for="post in Posts" :key="post.id" class="post-container is-relative">
-			<div v-show="isAdminPage" class="add-box" @click="openModal(false, null)">
-				<img alt="add" class="navbar-icon" src="../assets/icons/plus.png"/>
-			</div>
-			<div class="post-box">
+	<div class="is-relative">
+		<div v-show="isAdminPage" class="add-box" @click="openModal(false, null)">
+			<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png"/>
+		</div>
+		<div :class="{ 'm-0': isAdminPage }" class="post-container is-relative">
+			<div v-for="post in Posts" :key="post.id"  class="post-box">
 				<div v-show="isAdminPage" class="toolbar">
-					<img alt="edit" src="../assets/icons/edit.png" @click="openModal(true, post)"/>
-					<img alt="remove" src="../assets/icons/trash.png" @click="removePosts(post.id)"/>
+					<img alt="edit" src="../../assets/icons/edit.png" @click="openModal(true, post)"/>
+					<img alt="remove" src="../../assets/icons/trash.png" @click="removePosts(post.id)"/>
 				</div>
 				<div class="post-title">{{ post.title }}</div>
 				<div class="post-description">{{ post.description }}</div>
@@ -65,7 +65,8 @@ export default defineComponent({
 				title: "",
 				description: "",
 				date: "",
-				link: ""
+				link: "",
+				timestamp: 0
 			} as PostType,
 		};
 	},
@@ -77,14 +78,14 @@ export default defineComponent({
 	},
 	methods: {
 		async getPostsFromFirebase() {
-			const snapshot = await firebase.firestore().collection('posts').get();
+			const snapshot = await firebase.firestore().collection('posts').orderBy('timestamp', 'desc').get();
 			this.Posts = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as PostType[];
 		},
-		openModal(editMode: boolean, posts: PostType | null) {
-			if (editMode && posts) {
+		openModal(editMode: boolean, post: PostType | null) {
+			if (editMode && post) {
 				// If in edit mode and caseStudy is provided, set isEditable to true for editing mode
 				this.isEditable = true;
-				this.editedPosts = {...posts};
+				this.editedPosts = {...post};
 			} else {
 				// If not in edit mode or caseStudy is not provided, set isEditable to false for addition mode
 				this.isEditable = false;
@@ -94,7 +95,8 @@ export default defineComponent({
 					title: "",
 					description: "",
 					date: "",
-					link: ""
+					link: "",
+					timestamp: 0
 				};
 			}
 			this.isPostModalOpen = true;

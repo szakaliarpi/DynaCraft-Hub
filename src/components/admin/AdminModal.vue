@@ -5,7 +5,7 @@
 				<label for="title">Title</label>
 				<input v-model="editedCaseStudy.title" placeholder="Title" type="text">
 				<label for="description">Description</label>
-				<textarea v-model="editedCaseStudy.description" class="" placeholder="Description"/>
+				<textarea v-model="editedCaseStudy.description" class="" placeholder="Description"></textarea>
 				<label for="Link">Link</label>
 				<input v-model="editedCaseStudy.link" placeholder="Link" type="text">
 				<label for="image">Image</label>
@@ -40,7 +40,7 @@
 				<label for="title">Title</label>
 				<input v-model="editedPost.title" placeholder="Title" type="text">
 				<label for="description">Description</label>
-				<textarea v-model="editedPost.description" class="" placeholder="Description"/>
+				<textarea v-model="editedPost.description" class="" placeholder="Description"></textarea>
 				<label for="Link">Date</label>
 				<input v-model="editedPost.date" placeholder="Date" type="text">
 				<label for="image">Link</label>
@@ -50,7 +50,6 @@
 					<button class="button button--white" @click="closeModal">Cancel</button>
 				</div>
 			</div>
-
 		</div>
 	</div>
 </template>
@@ -78,14 +77,14 @@ export default defineComponent({
 				image: ""
 			})
 		},
-		Post: {
+		post: {
 			type: Object as () => PostType,
 			default: () => ({
 				id: "",
 				title: "",
 				description: "",
-				link: "",
-				image: ""
+				date: "",
+				link: ""
 			})
 		},
 		isEditMode: {
@@ -103,15 +102,17 @@ export default defineComponent({
 			editedPost: {} as PostType,
 			fileItem: null as File | null,
 			fileName: '' as string,
-			isDisabled: false as boolean,
 			selectedFile: null as File | null,
-			imageUrl: null as string | null,
+			oldImageUrl: null as string | null,
 		};
 	},
 	watch: {
 		caseStudy(newCaseStudy: CaseStudyType) {
-			// Update editedCaseStudy whenever caseStudy prop changes
 			this.editedCaseStudy = {...newCaseStudy};
+			this.oldImageUrl = this.editedCaseStudy?.image;
+		},
+		post(newPost: PostType) {
+			this.editedPost = {...newPost};
 		}
 	},
 	methods: {
@@ -122,58 +123,108 @@ export default defineComponent({
 		},
 		async submitChanges() {
 			if (this.isEditMode) {
-				// Update existing case study
-				await firebase.firestore().collection('studies').doc(this.editedCaseStudy.id!).update({
-					title: this.editedCaseStudy.title,
-					description: this.editedCaseStudy.description,
-					link: this.editedCaseStudy.link,
-					image: this.editedCaseStudy.image
-				});
-				this.$emit('changes-submitted');
-
-			} else {
-				// Add new case study
-				if (!this.fileItem) {
-					console.error("No file selected for upload.");
-					return;
-				}
-				let storageRef = firebase.storage().ref("images/" + this.fileName);
-				let uploadTask = storageRef.put(this.fileItem);
-
-				uploadTask.on("state_changed", (snapshot) => {
-					console.log(snapshot);
-				}, (error) => {
-					console.log(error);
-				}, () => {
-					uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-						firebase.firestore().collection('studies').add({
+				if (this.component === 'case-studies') {
+					if (this.oldImageUrl === this.editedCaseStudy.image) {
+						await firebase.firestore().collection('studies').doc(this.editedCaseStudy.id!).update({
 							title: this.editedCaseStudy.title,
 							description: this.editedCaseStudy.description,
-							link: this.editedCaseStudy.link,
-							image: url
+							link: this.editedCaseStudy.link
 						}).then(() => {
-							console.log("document successfully added");
-						}).catch((error) => {
-							console.error("Error adding document:", error);
+							this.$emit('changes-submitted');
+						});
+					} else {
+						this.deleteImage(this.oldImageUrl as string);
+
+						let storageRef = firebase.storage().ref("images/" + this.fileName);
+						let uploadTask = storageRef.put(this.fileItem as any);
+
+						uploadTask.on("state_changed", (snapshot) => {
+							console.log(snapshot);
+						}, (error) => {
+							console.log(error);
+						}, () => {
+							uploadTask.snapshot.ref.getDownloadURL().then(async (url) => {
+								await firebase.firestore().collection('studies').doc(this.editedCaseStudy.id!).update({
+									title: this.editedCaseStudy.title,
+									description: this.editedCaseStudy.description,
+									link: this.editedCaseStudy.link,
+									image: url
+								}).then(() => {
+									this.$emit('changes-submitted');
+								});
+							});
+						});
+					}
+				} else if (this.component === 'posts') {
+					await firebase.firestore().collection('posts').doc(this.editedPost.id!).update({
+						title: this.editedPost.title,
+						description: this.editedPost.description,
+						date: this.editedPost.date,
+						link: this.editedPost.link
+					});
+					this.$emit('changes-submitted');
+				}
+			} else {
+				if (this.component === 'case-studies') {
+					if (!this.fileItem) {
+						console.error("No file selected for upload.");
+						return;
+					}
+					let storageRef = firebase.storage().ref("images/" + this.fileName);
+					let uploadTask = storageRef.put(this.fileItem);
+
+					uploadTask.on("state_changed", (snapshot) => {
+						console.log(snapshot);
+					}, (error) => {
+						console.log(error);
+					}, () => {
+						uploadTask.snapshot.ref.getDownloadURL().then((url) => {
+							firebase.firestore().collection('studies').add({
+								title: this.editedCaseStudy.title,
+								description: this.editedCaseStudy.description,
+								link: this.editedCaseStudy.link,
+								image: url,
+								timestamp: firebase.firestore.FieldValue.serverTimestamp()
+							}).then(() => {
+								this.$emit('changes-submitted');
+								console.log("document successfully added");
+							}).catch((error) => {
+								console.error("Error adding document:", error);
+							});
 						});
 					});
-				});
+				} else if (this.component === 'posts') {
+					firebase.firestore().collection('posts').add({
+						title: this.editedPost.title,
+						description: this.editedPost.description,
+						date: this.editedPost.date,
+						link: this.editedPost.link
+					}).then(() => {
+						this.$emit('changes-submitted');
+						console.log("document successfully added");
+					}).catch((error) => {
+						console.error("Error adding document:", error);
+					});
+				}
 			}
-			this.$emit('changes-submitted');
 			this.closeModal();
 		},
 		fileChanged(event: any) {
 			this.fileItem = event.target.files[0];
 			this.fileName = this.fileItem?.name ?? '';
+			const reader = new FileReader();
+			reader.onload = () => {
+				this.editedCaseStudy.image = reader.result as string;
+			}
+			reader.readAsDataURL(event.target.files[0]);
 		},
-
 		removeImage() {
 			this.fileItem = null;
 			this.fileName = '';
 			this.editedCaseStudy.image = '';
 		},
-		deleteImage() {
-			const imageRef = firebase.storage().refFromURL(this.caseStudy.image);
+		deleteImage(imageUrl: string) {
+			const imageRef = firebase.storage().refFromURL(imageUrl);
 			imageRef.delete()
 				.then(() => {
 					console.log('Image deleted successfully.');
@@ -183,10 +234,9 @@ export default defineComponent({
 				});
 		},
 	},
-
 });
 </script>
 
 <style scoped>
-
+/* Add your styles here */
 </style>

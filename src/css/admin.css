@@ -11,9 +11,19 @@
     padding: 10px;
     border-bottom: 3px solid #000;
 }
+
 .navbar-icon {
     height: 30px;
     cursor: pointer;
+    position: relative;
+}
+
+/*.navbar-icon:hover {*/
+/*    transform: scale(1.2);*/
+/*}*/
+
+#logout:hover {
+    transform: scale(1.2);
 }
 
 .admin-icon {
@@ -44,7 +54,6 @@
 
 .admin-group-item {
     border-right: 2px solid #000;
-
 }
 
 .admin-group-item:last-child {
@@ -62,7 +71,7 @@
 }
 
 .source-container {
-    padding: 80px 50px;
+    padding: 80px 55px;
     background-color: #000;
     position: relative;
 }
@@ -128,6 +137,11 @@
     cursor: pointer;
 }
 
+.add-box:hover {
+    transform: scale(1.2);
+}
+
+
 .file-name {
     font-family: Poppins, 'sans-serif';
     font-weight: 600;
@@ -159,3 +173,24 @@
     width: 300px;
 }
 
+.notification {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15px;
+    color: red;
+    font-size: 13px;
+    font-weight: 600;
+    height: 15px;
+    background-color: rgb(255 255 255 / 90%);
+    border-radius: 25px;
+    text-align: center;
+}
+
+.message-container {
+    position: relative;
+}
+
+.message-container:hover {
+    transform: scale(1.2);
+}

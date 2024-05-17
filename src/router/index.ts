@@ -5,7 +5,7 @@ import Services from "@/views/Services.vue";
 import Admin from "@/views/Admin.vue";
 import Login from "@/views/Login.vue";
 import {auth} from "@/main";
-import AboutMe from "@/components/AboutMe.vue";
+import AboutMe from "@/components/dynamic-components/AboutMe.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {

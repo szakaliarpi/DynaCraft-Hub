@@ -110,8 +110,8 @@ import Contact from "@/components/Contact.vue";
 import Navbar from "@/components/Navbar.vue";
 import {defineComponent} from "vue";
 import {RouteLocationNormalized, RouteLocationNormalizedLoaded} from "vue-router";
-import CaseStudy from "@/components/CaseStudy.vue";
-import Post from "@/components/Post.vue";
+import CaseStudy from "@/components/dynamic-components/CaseStudy.vue";
+import Post from "@/components/dynamic-components/Post.vue";
 
 export default defineComponent({
 	components: {

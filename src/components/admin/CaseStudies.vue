@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import CaseStudy from "@/components/CaseStudy.vue";
+import CaseStudy from "@/components/dynamic-components/CaseStudy.vue";
 import firebase from "firebase/compat/app";
 import AdminModal from "@/components/admin/AdminModal.vue";
 import {CaseStudyType} from "@/components/types/CaseStudyType";

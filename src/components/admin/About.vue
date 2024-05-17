@@ -7,8 +7,8 @@
 <script lang="ts">
 import Navbar from "@/components/Navbar.vue";
 import {defineComponent} from "vue";
-import AdminNavbar from "@/components/AdminNavbar.vue";
-import AboutMe from "@/components/AboutMe.vue";
+import AdminNavbar from "@/components/admin/AdminNavbar.vue";
+import AboutMe from "@/components/dynamic-components/AboutMe.vue";
 import {AboutMeType} from "@/components/types/AboutMeType";
 import firebase from "firebase/compat/app";
 

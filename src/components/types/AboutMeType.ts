@@ -1,17 +1,19 @@
 export type AboutMeType = {
     id: string;
-    educations: Course[];
-    experiences: Experience[];
-    facts: string;
+    education: Education[];
+    experience: Experience[];
+    fact: string;
     introduction: string;
-    languages: Language;
-    skills: Skill[];
-    softSkills: string;
+    language: Language;
+    name: string;
+    skill: Skill[];
+    soft_skill: string;
     title: string;
-    tools: Tools;
+    tool: Tools;
+    timestamp: number;
 };
 
-type Course = {
+type Education = {
     course: string;
     institution: string;
     location: string;
@@ -21,12 +23,12 @@ type Course = {
 type Experience = {
     duration: string;
     firm: string;
-    role: string[];
+    role: string;
 };
 
 type Language = {
     language: string[];
-    level: string[];
+    level: number[];
 };
 
 type Skill = {
@@ -35,7 +37,7 @@ type Skill = {
 };
 
 type Tools = {
-    level: string[];
+    level: number[];
     name: string[];
 };
 

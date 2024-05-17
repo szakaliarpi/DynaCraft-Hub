@@ -8,7 +8,7 @@
 <script lang="ts">
 import Navbar from "@/components/Navbar.vue";
 import {defineComponent} from "vue";
-import AdminNavbar from "@/components/AdminNavbar.vue";
+import AdminNavbar from "@/components/admin/AdminNavbar.vue";
 
 export default defineComponent({
 	components: {

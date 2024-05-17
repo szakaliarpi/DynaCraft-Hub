@@ -50,7 +50,7 @@
 <script lang="ts">
 import Navbar from "@/components/Navbar.vue";
 import {defineComponent} from "vue";
-import AdminNavbar from "@/components/AdminNavbar.vue";
+import AdminNavbar from "@/components/admin/AdminNavbar.vue";
 import CaseStudies from "@/components/admin/CaseStudies.vue";
 import AboutMe from "@/components/admin/About.vue";
 import Services from "@/components/admin/Services.vue";

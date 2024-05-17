@@ -4,4 +4,5 @@ export type PostType = {
     description: string;
     date: string;
     link: string;
+    timestamp: number;
 };

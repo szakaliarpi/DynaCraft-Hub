@@ -1,17 +1,17 @@
 <template>
 	<div class="is-relative">
 		<div v-show="isAdminPage" class="add-box" @click="openModal(false, null)">
-			<img alt="add" class="navbar-icon" src="../assets/icons/plus.png"/>
+			<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png"/>
 		</div>
 		<h2 v-if="caseStudies.length === 0" class="text-center">
 			There are no case studies uploaded yet, upload one!
 		</h2>
 		<div v-for="caseStudy in caseStudies" :key="caseStudy.id" class="work-container">
 			<div v-show="isAdminPage" class="toolbar">
-				<img alt="edit" src="../assets/icons/edit.png" @click="openModal(true, caseStudy)"/>
-				<img alt="remove" src="../assets/icons/trash.png" @click="removeCaseStudy(caseStudy.id)"/>
+				<img alt="edit" src="../../assets/icons/edit.png" @click="openModal(true, caseStudy)"/>
+				<img alt="remove" src="../../assets/icons/trash.png" @click="removeCaseStudy(caseStudy.id)"/>
 			</div>
-			<img :src="caseStudy.image" alt="image" class="work-container-image"/>
+			<div :style="{ 'background-image': 'url(' + caseStudy.image + ')' }" class="work-container-image"></div>
 			<div class="work-container-text">
 				<div class="work-container-title">{{ truncateTitle(caseStudy.title) }}</div>
 				<div class="work-container-description">
@@ -69,9 +69,10 @@ export default defineComponent({
 				title: "",
 				description: "",
 				link: "",
-				image: ""
+				image: "",
+				timestamp: 0
 			} as CaseStudyType,
-			isEditable: false
+			isEditable: false,
 		};
 	},
 	computed: {
@@ -82,7 +83,7 @@ export default defineComponent({
 	},
 	methods: {
 		async getCaseStudiesFromFirebase() {
-			const snapshot = await firebase.firestore().collection('studies').get();
+			const snapshot = await firebase.firestore().collection('studies').orderBy('timestamp', 'desc').get();
 			this.caseStudies = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as CaseStudyType[];
 		},
 		truncateTitle(text: string): string {
@@ -111,7 +112,8 @@ export default defineComponent({
 					title: "",
 					description: "",
 					link: "",
-					image: ""
+					image: "",
+					timestamp: 0
 				};
 			}
 			this.isAdminModalOpen = true;

@@ -188,7 +188,11 @@ export default defineComponent({
 				message: {
 					subject: `${Messages.subject} ${this.firstName} ${this.lastName}`,
 					html: htmlContent,
-					text: Messages.received,
+					text: this.message,
+					timestamp: new Date().getTime(),
+					fromEmail: this.emailAddress,
+					messageSubject: this.subject,
+					sender: `${this.firstName} ${this.lastName}`
 				}
 			}).then(response => {
 				alert(Messages.sent);
