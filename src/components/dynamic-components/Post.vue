@@ -17,8 +17,7 @@
 				</div>
 			</div>
 
-			<AdminModal :case-study="null"
-						:component="component"
+			<AdminModal :component="component"
 						:is-edit-mode="isEditable"
 						:is-open="isPostModalOpen"
 						:post="editedPosts"
@@ -34,10 +33,11 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import NoticeModal from "@/components/NoticeModal.vue";
-import AdminModal from "@/components/admin/AdminModal.vue";
+import NoticeModal from "@/components/modals/NoticeModal.vue";
+import AdminModal from "@/components/modals/AdminModal.vue";
 import firebase from "firebase/compat/app";
 import {PostType} from "@/components/types/PostType";
+import {Messages} from "@/config/config";
 
 export default defineComponent({
 	components: {
@@ -58,7 +58,7 @@ export default defineComponent({
 			isEditable: true as boolean,
 			isPostModalOpen: false as boolean,
 			isNoticeModalOpen: false as boolean,
-			message: 'Delete for all eternity?',
+			message: Messages.notice,
 			Posts: [] as PostType[],
 			editedPosts: {
 				id: "",

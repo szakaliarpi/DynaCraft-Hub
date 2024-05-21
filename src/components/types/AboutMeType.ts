@@ -1,44 +1,22 @@
+import {LanguageType} from "@/components/types/LanguageType";
+import {EducationType} from "@/components/types/EducationType";
+import {ExperienceType} from "@/components/types/ExperienceType";
+import {SkillType} from "@/components/types/SkillType";
+import {ToolType} from "@/components/types/ToolType";
+
 export type AboutMeType = {
     id: string;
-    education: Education[];
-    experience: Experience[];
+    education: EducationType[];
+    experience: ExperienceType[];
     fact: string;
     introduction: string;
-    language: Language;
+    languages: LanguageType[];
     name: string;
-    skill: Skill[];
+    skill: SkillType[];
     soft_skill: string;
     title: string;
-    tool: Tools;
+    tool: ToolType[];
     timestamp: number;
-};
-
-type Education = {
-    course: string;
-    institution: string;
-    location: string;
-    year: string;
-};
-
-type Experience = {
-    duration: string;
-    firm: string;
-    role: string;
-};
-
-type Language = {
-    language: string[];
-    level: number[];
-};
-
-type Skill = {
-    description: string;
-    title: string;
-};
-
-type Tools = {
-    level: number[];
-    name: string[];
 };
 
 

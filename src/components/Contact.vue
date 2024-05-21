@@ -3,8 +3,8 @@
 		<div>
 			<div class="is-grid">
 				<h2>Contact info</h2>
-				<div class="contact-info">hello@dynacrafthub.com</div>
-				<div class="contact-info">+40 712 345 678</div>
+				<div class="contact-info">{{ contact }}</div>
+				<div class="contact-info">{{ phone }}</div>
 			</div>
 
 			<div class="contact-container">
@@ -29,8 +29,17 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
+import {ContactInfo} from "@/config/config";
 
-export default defineComponent({});
+export default defineComponent({
+	data() {
+		return {
+			contact: ContactInfo.contact as string,
+			phone: ContactInfo.phone as string,
+		};
+	},
+});
+
 </script>
 
 <style scoped>

@@ -40,9 +40,10 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import firebase from "firebase/compat/app";
-import AdminModal from "@/components/admin/AdminModal.vue";
-import NoticeModal from "@/components/NoticeModal.vue";
+import AdminModal from "@/components/modals/AdminModal.vue";
+import NoticeModal from "@/components/modals/NoticeModal.vue";
 import {CaseStudyType} from "@/components/types/CaseStudyType";
+import {Messages} from "@/config/config";
 
 export default defineComponent({
 	components: {
@@ -63,7 +64,7 @@ export default defineComponent({
 			caseStudies: [] as CaseStudyType[],
 			isAdminModalOpen: false,
 			isNoticeModalOpen: false,
-			message: 'Delete for all eternity?',
+			message: Messages.notice,
 			editedCaseStudy: {
 				id: "",
 				title: "",

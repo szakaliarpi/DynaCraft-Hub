@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import Home from "@/views/Home.vue";
 import GetInTouch from "@/views/GetInTouch.vue";
-import Services from "@/views/Services.vue";
+import Services from "@/components/dynamic-components/Service.vue";
 import Admin from "@/views/Admin.vue";
 import Login from "@/views/Login.vue";
 import {auth} from "@/main";

@@ -1,14 +1,14 @@
 <template>
-	<div >
+	<div>
 		<Navbar v-show="!isAdminPage"/>
 		<div v-for="about in abouts" :key="about.id" :class="{ 'main-container': !isAdminPage }">
 			<div class="introduction-container">
 				<div v-show="isAdminPage" :class="{ 'bg-orange': isAdminPage }" class="toolbar">
-					<img alt="edit" src="../../assets/icons/edit.png" @click="openModal(true, post)"/>
-					<img alt="remove" src="../../assets/icons/trash.png" @click="removePosts(post.id)"/>
+					<img alt="add"  src="../../assets/icons/plus.png" @click="openModal(false,about)"/>
+					<img alt="edit" src="../../assets/icons/edit.png" @click="openModal(true, about)"/>
 				</div>
 				<div class="text-column">
-					<div class="pl-90 mb-100">
+					<div :class="{ 'pl-90': !isAdminPage}" class="mb-100">
 						<div class="large-title-dark mb-50">
 							{{ about.title }}
 							<mark>{{ about.name }}</mark>
@@ -22,11 +22,11 @@
 							<h2>Tools</h2>
 						</div>
 
-						<BarChart v-for="(level, index) in about.tool.level"
+						<BarChart v-for="(item, index) in about.tool"
 								  :key="index"
 								  :isTool="true"
-								  :tool-level="level"
-								  :tool-name="about.tool.name[index]">
+								  :tool-level="item.level"
+								  :tool-name="item.name">
 						</BarChart>
 					</div>
 
@@ -81,11 +81,11 @@
 							<h2>Languages</h2>
 						</div>
 
-						<BarChart v-for="(level, index) in about.language.level"
+						<BarChart v-for="(item, index) in about.languages"
 								  :key="index"
 								  :isTool="false"
-								  :language-level="level"
-								  :languages="about.language.language[index]">
+								  :language-level="item.level"
+								  :languages="item.name">
 						</BarChart>
 					</div>
 
@@ -119,12 +119,17 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="image-column hide-on-mobile-tablet">
-				</div>
 			</div>
 		</div>
-		<Contact v-show="!isAdminPage"/>
+
+		<AdminModal :about="editedAboutMe"
+					:component="component"
+					:is-open="isAdminModalOpen"
+					:is-edit-mode="isEditable"
+					@close="closeModal"
+					@changes-submitted="getAboutMeFromFirebase"
+		/>
+		<Contact v-show="!isAdminPage"></Contact>
 	</div>
 </template>
 
@@ -136,12 +141,15 @@ import {defineComponent} from "vue";
 import {RouteLocationNormalized, RouteLocationNormalizedLoaded} from "vue-router";
 import firebase from "firebase/compat/app";
 import {AboutMeType} from "@/components/types/AboutMeType";
+import {Messages} from "@/config/config";
+import AdminModal from "@/components/modals/AdminModal.vue";
 
 export default defineComponent({
 	components: {
 		Navbar,
 		BarChart,
-		Contact
+		Contact,
+		AdminModal
 	},
 	props: {
 		component: {
@@ -162,20 +170,20 @@ export default defineComponent({
 		return {
 			abouts: [] as AboutMeType[],
 			isAdminModalOpen: false as boolean,
-			isNoticeModalOpen: false as boolean,
-			message: 'Delete for all eternity?',
+			message: Messages.notice,
+			isEditable: false as boolean,
 			editedAboutMe: {
 				id: "",
 				education: [],
 				experience: [],
 				fact: "",
 				introduction: "",
-				language: {language: [], level: []},
+				languages: [],
 				name: "",
 				skill: [],
 				soft_skill: "",
 				title: "",
-				tool: {level: [], name: []},
+				tool: [],
 				timestamp: 0
 			} as AboutMeType,
 		};
@@ -184,34 +192,38 @@ export default defineComponent({
 		async getAboutMeFromFirebase() {
 			const snapshot = await firebase.firestore().collection('about').get();
 			this.abouts = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as AboutMeType[];
-			console.log(this.abouts);
 		},
 		beforeRouteEnter(to: RouteLocationNormalizedLoaded, from: RouteLocationNormalized, next: any) {
 			window.scrollTo(0, 0);
 			next();
 		},
-		openModal(about: AboutMeType | null) {
-			if (about) {
-				// If in edit mode and caseStudy is provided, set isEditable to true for editing mode
+		openModal(editMode: boolean, about: AboutMeType) {
+			if (editMode && about) {
+				this.isAdminModalOpen = true;
 				this.editedAboutMe = {...about};
+				this.isEditable = true;
 			} else {
-				// If not in edit mode or caseStudy is not provided, set isEditable to false for addition mode
-				this.editedAboutMe = {
-					id: "",
-					education: [],
-					experience: [],
-					fact: "",
-					introduction: "",
-					language: {language: [], level: []},
-					name: "",
-					skill: [],
-					soft_skill: "",
-					title: "",
-					tool: {level: [], name: []},
-					timestamp: 0
-				};
+				this.isEditable = false;
+				// this.editedAboutMe = {
+				// 	id: "",
+				// 	education: [],
+				// 	experience: [],
+				// 	fact: "",
+				// 	introduction: "",
+				// 	languages: [],
+				// 	name: "",
+				// 	skill: [],
+				// 	soft_skill: "",
+				// 	title: "",
+				// 	tool: [],
+				// 	timestamp: 0
+				// };
+				this.editedAboutMe = {...about};
 			}
 			this.isAdminModalOpen = true;
+		},
+		closeModal() {
+			this.isAdminModalOpen = false;
 		},
 	}
 });

@@ -123,6 +123,18 @@ textarea::placeholder {
     color: #FF8500 !important;
 }
 
+textarea::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+    border-radius: 20px;
+    overflow-y: scroll;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background-color: #FF8500;
+}
+
 textarea:focus {
     outline: none;
 }

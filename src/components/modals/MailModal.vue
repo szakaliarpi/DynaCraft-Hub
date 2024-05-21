@@ -1,18 +1,17 @@
 <template>
 	<div v-if="isOpen !== undefined && isOpen" class="modal">
-		<div class="modal-content">
+		<div class="mail-content">
+			<img alt="messages" class="close-image" src="../../assets/icons/close.png" @click="closeModal"/>
 			<div v-for="mail in mails">
-				<div>
-					{{ mail.message.sender }} <br>
-					{{ mail.message.fromEmail }}
-					{{ mail.message.messageSubject }}
-					{{ formatTimestamp(mail.message.timestamp) }}
+				<div class="mail-container">
+					<h3>{{ mail.message.sender }}</h3>
+					<h4> {{ mail.message.messageSubject }} </h4>
+					<p> {{ mail.message.text }}</p>
+					<div class="is-flex space-between">
+						<span>{{ mail.message.fromEmail }}</span>
+						<span>{{ formatTimestamp(mail.message.timestamp) }}</span>
+					</div>
 				</div>
-			</div>
-
-			<div class="text-center mt-30">
-				<button class="button button--orange mr-50" @click="submitChanges">Save</button>
-				<button class="button button--white" @click="closeModal">Cancel</button>
 			</div>
 		</div>
 	</div>
@@ -36,14 +35,8 @@ export default defineComponent({
 			mails: [] as MailType[],
 		};
 	},
-	mounted() {
-		this.getMails();
-	},
 	computed: {},
 	methods: {
-		async submitChanges() {
-
-		},
 		closeModal() {
 			this.$emit("close");
 		},

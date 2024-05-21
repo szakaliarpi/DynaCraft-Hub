@@ -1,0 +1,61 @@
+.mail-container {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 2px solid #FF8500;
+    border-radius: 10px;
+    font-family: Poppins, 'sans-serif';
+    color: #FFFFFF;
+}
+
+.mail-container h3 {
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
+}
+
+.mail-container h4 {
+    font-weight: 400;
+    font-size: 14px;
+    margin: 0;
+    padding-bottom: 5px;
+}
+
+.mail-container p {
+    font-weight: 400;
+    font-size: 12px;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.mail-container span {
+    font-weight: 600;
+    font-size: 12px;
+    color: #FF8500;
+}
+
+.mail-content {
+    background-color: #000000;
+    width: 500px;
+    padding: 25px;
+    border: 2px solid #FF8500;
+    border-radius: 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
+    max-height: 80vh;
+    position: relative;
+}
+
+.mail-content::-webkit-scrollbar {
+    display: none;
+}
+
+.close-image {
+    height: 15px;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    cursor: pointer;
+}
+

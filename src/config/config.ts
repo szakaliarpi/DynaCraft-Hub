@@ -15,6 +15,8 @@ export const Messages = {
 
 export const ContactInfo = {
     email: "szakaliarpi@gmail.com",
+    contact: 'hello@dynacraft.hub',
+    phone: '+40 712 345 678',
 };
 
 export const EmailTemplate = `

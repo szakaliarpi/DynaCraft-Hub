@@ -1,23 +1,25 @@
 <template>
-	<div>
-
-
+	<div class="source-container">
+		<Service :component="component"/>
 	</div>
 </template>
 
 <script lang="ts">
-import Navbar from "@/components/Navbar.vue";
 import {defineComponent} from "vue";
-import AdminNavbar from "@/components/admin/AdminNavbar.vue";
+import Service from "@/components/dynamic-components/Service.vue";
 
 export default defineComponent({
 	components: {
-		Navbar,
-		AdminNavbar
+		Service
+	},
+	props: {
+		component: {
+			type: String,
+			required: false
+		},
 	},
 	data() {
 		return {
-
 		};
 	},
 	methods: {

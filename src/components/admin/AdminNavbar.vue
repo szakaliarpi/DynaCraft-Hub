@@ -11,7 +11,8 @@
 			</div>
 		</div>
 
-		<MailModal :is-open="isOpen"
+		<MailModal ref="getMails"
+				   :is-open="isOpen"
 				   @close="closeModal"
 		/>
 	</div>
@@ -21,8 +22,8 @@
 import {defineComponent} from "vue";
 import {auth} from "@/main";
 import firebase from "firebase/compat/app";
-import MailModal from "@/components/admin/MailModal.vue";
-
+import MailModal from "@/components/modals/MailModal.vue";
+import {MailType} from "@/components/types/MailType";
 
 export default defineComponent({
 	components: {
@@ -32,14 +33,18 @@ export default defineComponent({
 		return {
 			notificationActive: false as boolean,
 			isOpen: false as boolean,
+			currentTime: new Date().getTime(),
+			mails: [] as MailType[],
 		};
 	},
-	async mounted() {
-		await this.mailListener();
+	mounted() {
+		this.mailListener();
 	},
 	methods: {
 		openModal() {
 			this.isOpen = true;
+			this.notificationActive = false;
+			(this.$refs.getMails as any).getMails();
 		},
 		closeModal() {
 			this.isOpen = false;
@@ -59,10 +64,13 @@ export default defineComponent({
 				await snapshot.docChanges().forEach((change) => {
 					if (change.type === "added") {
 						let emailCreationTime = change.doc.data()?.message.timestamp; //data()?.delivery.endTime.seconds
-						console.log(change.doc.data());
-						let currentTime = new Date().getTime();
-						if (emailCreationTime > currentTime) {
+						if (emailCreationTime > this.currentTime) {
 							this.notificationActive = true;
+							const audio = new Audio(require('@/assets/sounds/sound.mp3'));
+							audio.play().catch(error => {
+								console.error('Error playing sound:', error);
+							});
+
 						}
 					}
 				})
