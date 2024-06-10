@@ -204,20 +204,6 @@ export default defineComponent({
 				this.isEditable = true;
 			} else {
 				this.isEditable = false;
-				// this.editedAboutMe = {
-				// 	id: "",
-				// 	education: [],
-				// 	experience: [],
-				// 	fact: "",
-				// 	introduction: "",
-				// 	languages: [],
-				// 	name: "",
-				// 	skill: [],
-				// 	soft_skill: "",
-				// 	title: "",
-				// 	tool: [],
-				// 	timestamp: 0
-				// };
 				this.editedAboutMe = {...about};
 			}
 			this.isAdminModalOpen = true;

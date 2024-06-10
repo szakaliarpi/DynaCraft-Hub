@@ -12,27 +12,23 @@
 				<div v-if="isEditMode">
 					<div class="modal-image-container">
 						<img :src="editedCaseStudy.image" alt="case study image" class="modal-image"/>
-						<img alt="upload" class="upload" src="../../assets/icons/upload.png"
+						<img alt="upload" class="upload ml-20" src="../../assets/icons/upload.png"
 							 @click="$refs.image_change.click()"/>
 						<input ref="image_change" accept="image/*" class="d-none" type="file"
-							   v-on:change="fileChanged($event)"/>
+							   v-on:change="fileChanged($event, 'case-study')"/>
 					</div>
 				</div>
 				<div v-else>
-					<img v-show="!fileName" alt="upload" class="height-50" src="../../assets/icons/upload.png"
+					<img v-show="!caseStudyFileName" alt="upload" class="upload" src="../../assets/icons/upload.png"
 						 @click="$refs.image_upload.click()"/>
 					<input ref="image_upload" accept="image/*" class="d-none" type="file"
-						   v-on:change="fileChanged($event)"/>
-					<div v-show="fileName" class="file-name">
+						   v-on:change="fileChanged($event, 'case-study')"/>
+					<div v-show="caseStudyFileName" class="file-name">
 						<div>
-							{{ this.fileName }}
+							{{ this.caseStudyFileName }}
 						</div>
 						<img alt="remove" class="remove" src="../../assets/icons/red-trash.png" @click="removeImage()"/>
 					</div>
-				</div>
-				<div class="text-center mt-30">
-					<button class="button button--orange mr-50" @click="submitChanges">Save</button>
-					<button class="button button--white" @click="closeModal">Cancel</button>
 				</div>
 			</div>
 
@@ -45,10 +41,6 @@
 				<input v-model="editedPost.date" placeholder="Date" type="text">
 				<label for="image">Link</label>
 				<input v-model="editedPost.link" placeholder="Link" type="text">
-				<div class="text-center mt-30">
-					<button class="button button--orange mr-50" @click="submitChanges">Save</button>
-					<button class="button button--white" @click="closeModal">Cancel</button>
-				</div>
 			</div>
 
 			<div v-show="component === 'about-me'">
@@ -98,7 +90,7 @@
 						<div v-for="tool in editedAbouts.tool" class="about-addition-container">
 							<p class="mr-10">{{ tool.name }}</p>
 							<p class="mr-10 is-orange">{{ tool.level }}</p>
-							<img alt="remove" class="remove-item" src="../../assets/icons/red-trash.png" @click="removeItem(tool)"/>
+							<img alt="remove" class="remove-item" src="../../assets/icons/red-trash.png" @click="removeTool(tool)"/>
 						</div>
 						<div v-show="isAddToolActive" class="chart-container">
 							<input v-model="newTool.name" placeholder="name" type="text" class="mb-10">
@@ -113,7 +105,7 @@
 						<label>Skills</label>
 						<div v-for="skill in editedAbouts.skill" class="about-addition-container">
 							<p>{{ skill.title }}</p>
-							<img alt="remove" class="remove-item" src="../../assets/icons/red-trash.png" @click="removeItem(skill)"/>
+							<img alt="remove" class="remove-item" src="../../assets/icons/red-trash.png" @click="removeSkill(skill)"/>
 						</div>
 						<div v-show="isAddSkillActive">
 							<input v-model="newSkill.title" placeholder="Title" type="text" class="mb-10">
@@ -131,7 +123,7 @@
 							<p class="align-left">{{ edu.institution }}</p>
 							<p class="align-left">{{ edu.location }}</p>
 							<p class="align-left">{{ edu.course }}</p>
-							<img alt="remove" class="remove-item-top" src="../../assets/icons/red-trash.png" @click="removeItem(edu)"/>
+							<img alt="remove" class="remove-item-top" src="../../assets/icons/red-trash.png" @click="removeEducation(edu)"/>
 						</div>
 						<div v-show="isAddEducationActive">
 							<input v-model="newEducation.year" placeholder="year" type="text" class="mb-10">
@@ -149,7 +141,7 @@
 						<div v-for="language in editedAbouts.languages" class="about-addition-container">
 							<p>{{ language.name }}</p>
 							<p class="mr-10 is-orange">{{ language.level }}</p>
-							<img alt="remove" class="remove-item" src="../../assets/icons/red-trash.png" @click="removeItem(language)"/>
+							<img alt="remove" class="remove-item" src="../../assets/icons/red-trash.png" @click="removeLanguage(language)"/>
 						</div>
 						<div v-show="isAddLanguageActive" class="chart-container">
 							<input v-model="newLanguage.name" placeholder="language" type="text" class="mb-10">
@@ -166,7 +158,7 @@
 							<p class="align-left">{{ experience.firm }}</p>
 							<p class="align-left">{{ experience.duration }}</p>
 							<p class="align-left">{{ experience.role }}</p>
-							<img alt="remove" class="remove-item-top" src="../../assets/icons/red-trash.png" @click="removeItem(experience)"/>
+							<img alt="remove" class="remove-item-top" src="../../assets/icons/red-trash.png" @click="removeExperience(experience)"/>
 						</div>
 						<div v-show="isAddExperienceActive">
 							<input v-model="newExperience.firm" placeholder="firm" type="text" class="mb-10">
@@ -178,10 +170,66 @@
 						</div>
 					</div>
 				</div>
-				<div class="text-center mt-30">
-					<button class="button button--orange mr-50" @click="submitChanges">Save</button>
-					<button class="button button--white" @click="closeModal">Cancel</button>
+			</div>
+
+			<div v-show="component === 'services'">
+				<label for="title">Title</label>
+				<input v-model="editedServices.title" placeholder="Title" type="text">
+				<label for="description">Description</label>
+				<textarea v-model="editedServices.description" placeholder="Description"></textarea>
+				<label for="image">Image</label>
+				<div v-if="isEditMode">
+					<div class="modal-image-container">
+						<img :src="editedServices.image" alt="services image" class="modal-image"/>
+						<img alt="upload" class="upload ml-20" src="../../assets/icons/upload.png" @click="$refs.service_image.click()"/>
+						<input ref="service_image" accept="image/*" class="d-none" type="file" v-on:change="fileChanged($event, 'services')"/>
+					</div>
 				</div>
+				<div v-else>
+					<img v-show="!serviceFileName" alt="upload" class="upload" src="../../assets/icons/upload.png" @click="$refs.service_upload.click()"/>
+					<input ref="service_upload" accept="image/*" class="d-none" type="file" v-on:change="fileChanged($event, 'services')"/>
+					<div v-show="serviceFileName" class="file-name">
+						<div>{{ serviceFileName }}</div>
+						<img alt="remove" class="remove" src="../../assets/icons/red-trash.png" @click="removeImage()"/>
+					</div>
+				</div>
+				<label for="boxes">Boxes <mark>(press enter to add more)</mark></label>
+				<div class="box-container">
+					<div v-for="box in editedServices.boxes" :key="box.id">
+						<div class="services-shadowed-boxes">
+							<img alt="cross" src="../../assets/icons/cross.png" class="cross" @click="removeBox(box.id, editedServices.id)"/>
+							{{ box.name }}
+						</div>
+					</div>
+				</div>
+				<div v-show="isAddBoxActive">
+					<input v-model="newBox.name" placeholder="box name" type="text" class="mb-10 mt-10" @keydown.enter="addBox">
+				</div>
+				<div v-show="!isAddBoxActive" class="about-addition-box">
+					<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="isAddBoxActive = true"/>
+				</div>
+			</div>
+
+			<div v-show="component === 'backend'">
+				<label for="boxes">Upload image<br></label>
+				<img v-show="!backendFileName" alt="upload" class="upload" src="../../assets/icons/upload.png"
+					 @click="$refs.backend_image_upload.click()"/>
+				<input ref="backend_image_upload" accept="image/*" class="d-none" type="file"
+					   v-on:change="fileChanged($event, 'backend')"/>
+				<div v-show="backendFileName" class="file-name">
+					<div>
+						{{ this.backendFileName }}
+					</div>
+					<img alt="remove" class="remove" src="../../assets/icons/red-trash.png" @click="removeImage()"/>
+				</div>
+
+				<label for="Link">Link</label>
+				<input v-model="editedImages.link" placeholder="Link" type="text">
+			</div>
+
+			<div class="text-center mt-30">
+				<button class="button button--orange mr-50" :class="{'disabled' : saveDisabled}" :disabled="saveDisabled" @click="submitChanges">Save</button>
+				<button class="button button--white" @click="closeModal">Cancel</button>
 			</div>
 		</div>
 	</div>
@@ -198,6 +246,10 @@ import {SkillType} from "@/components/types/SkillType";
 import {EducationType} from "@/components/types/EducationType";
 import {LanguageType} from "@/components/types/LanguageType";
 import {ExperienceType} from "@/components/types/ExperienceType";
+import {ServiceType} from "@/components/types/ServiceType";
+import {BackendType} from "@/components/types/BackendType";
+import {BoxType} from "@/components/types/BoxType";
+import {db} from "@/main";
 
 // composition API in Vue.js with TypeScript,
 export default defineComponent({
@@ -218,6 +270,14 @@ export default defineComponent({
 			type: Object as PropType<AboutMeType>,
 			required: false,
 		},
+		service: {
+			type: Object as PropType<ServiceType>,
+			required: false,
+		},
+		backend: {
+			type: Object as PropType<BackendType>,
+			required: false,
+		},
 		isEditMode: {
 			type: Boolean,
 			required: false
@@ -232,49 +292,106 @@ export default defineComponent({
 			editedCaseStudy: {} as CaseStudyType,
 			editedPost: {} as PostType,
 			editedAbouts: {} as AboutMeType,
+			editedServices: {} as ServiceType,
+			editedImages: {} as BackendType,
 			fileItem: null as File | null,
-			fileName: '' as string,
+			caseStudyFileName: '' as string,
+			serviceFileName: '' as string,
 			selectedFile: null as File | null,
-			oldImageUrl: null as string | null,
+			oldStudyImageUrl: null as string | null,
+			oldServiceImageUrl: null as string | null,
+			oldBackendImageImageUrl: null as string | null,
 			isAddToolActive: false as boolean,
 			isAddExperienceActive: false as boolean,
 			isAddLanguageActive: false as boolean,
 			isAddSkillActive: false as boolean,
 			isAddEducationActive: false as boolean,
+			isAddBoxActive: false as boolean,
 			newTool: {} as ToolType,
 			newExperience: {} as ExperienceType,
 			newLanguage: {} as LanguageType,
 			newSkill: {} as SkillType,
 			newEducation: {} as EducationType,
+			newBox: {} as BoxType,
+			updatedTools: [] as ToolType[],
+			updatedSkills: [] as SkillType[],
+			updatedEducations: [] as EducationType[],
+			updatedLanguages: [] as LanguageType[],
+			updatedExperiences: [] as ExperienceType[],
+			updatedBoxes: [] as BoxType[],
+			originalCaseStudy: {} as CaseStudyType,
+			originalPost: {} as PostType,
+			originalAbouts: {} as AboutMeType,
+			originalServices: {} as ServiceType,
+			originalBackend: {} as BackendType,
+			backendFileName: '' as string,
 		};
 	},
 	watch: {
 		caseStudy(newCaseStudy: CaseStudyType) {
 			this.editedCaseStudy = {...newCaseStudy};
-			this.oldImageUrl = this.editedCaseStudy?.image;
+			this.originalCaseStudy = { ...newCaseStudy };
+			this.oldStudyImageUrl = this.editedCaseStudy?.image;
 		},
 		post(newPost: PostType) {
 			this.editedPost = {...newPost};
+			this.originalPost = { ...newPost };
+
 		},
 		about(newAbout: AboutMeType) {
 			this.editedAbouts = {...newAbout};
+			this.originalAbouts = { ...newAbout };
+		},
+		service(newService: ServiceType) {
+			this.editedServices = { ...newService };
+			this.originalServices = { ...newService };
+			this.oldServiceImageUrl = this.editedServices.image;
+		},
+		backend (newImage: BackendType) {
+			this.editedImages = { ...newImage };
+			this.originalBackend = { ...newImage };
+			this.oldServiceImageUrl = this.editedImages.image;
+		}
+
+	},
+	computed: {
+		saveDisabled() :any {
+			return !this.isModified;
+		},
+		isModified() :any {
+			switch (this.component) {
+				case 'case-studies':
+					return JSON.stringify(this.originalCaseStudy) !== JSON.stringify(this.editedCaseStudy);
+				case 'posts':
+					return JSON.stringify(this.originalPost) !== JSON.stringify(this.editedPost);
+				case 'about-me':
+					return JSON.stringify(this.originalAbouts) !== JSON.stringify(this.editedAbouts);
+				case 'services':
+					return JSON.stringify(this.originalServices) !== JSON.stringify(this.editedServices);
+				case 'backend':
+					return JSON.stringify(this.originalBackend) !== JSON.stringify(this.editedImages);
+				default:
+					break;
+			}
 		}
 	},
 	methods: {
 		closeModal() {
 			this.fileItem = null;
-			this.fileName = '';
+			this.caseStudyFileName = '';
+			this.serviceFileName = '';
 			this.isAddToolActive = false;
 			this.isAddEducationActive = false;
 			this.isAddSkillActive = false;
 			this.isAddLanguageActive = false;
 			this.isAddExperienceActive = false;
+			this.isAddBoxActive = false;
 			this.$emit("close");
 		},
-		async submitChanges() {
+		async submitChanges() { //edit
 			if (this.isEditMode) {
 				if (this.component === 'case-studies') {
-					if (this.oldImageUrl === this.editedCaseStudy.image) {
+					if (this.oldStudyImageUrl === this.editedCaseStudy.image) {
 						await firebase.firestore().collection('studies').doc(this.editedCaseStudy.id!).update({
 							title: this.editedCaseStudy.title,
 							description: this.editedCaseStudy.description,
@@ -283,9 +400,9 @@ export default defineComponent({
 							this.$emit('changes-submitted');
 						});
 					} else {
-						this.deleteImage(this.oldImageUrl as string);
+						this.deleteImage(this.oldStudyImageUrl as string);
 
-						let storageRef = firebase.storage().ref("images/" + this.fileName);
+						let storageRef = firebase.storage().ref("images/" + this.caseStudyFileName);
 						let uploadTask = storageRef.put(this.fileItem as any);
 
 						uploadTask.on("state_changed", (snapshot) => {
@@ -314,7 +431,6 @@ export default defineComponent({
 					});
 					this.$emit('changes-submitted');
 				} else if (this.component === 'about-me') {
-					console.log(this.editedAbouts.tool);
 					await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
 						education: this.editedAbouts.education,
 						experience: this.editedAbouts.experience,
@@ -328,14 +444,55 @@ export default defineComponent({
 						tool: this.editedAbouts.tool,
 					});
 					this.$emit('changes-submitted');
+				} else if (this.component === 'services') {
+					if (this.oldServiceImageUrl === this.editedServices.image) {
+						await firebase.firestore().collection('services').doc(this.editedServices.id!).update({
+							title: this.editedServices.title,
+							description: this.editedServices.description,
+						}).then(() => {
+							this.$emit('changes-submitted');
+						});
+					} else {
+						this.deleteImage(this.oldServiceImageUrl as string);
+
+						let storageRef = firebase.storage().ref("images/" + this.serviceFileName);
+						let uploadTask = storageRef.put(this.fileItem as any);
+
+						uploadTask.on("state_changed", (snapshot) => {
+							console.log(snapshot);
+						}, (error) => {
+							console.log(error);
+						}, () => {
+							uploadTask.snapshot.ref.getDownloadURL().then(async (url) => {
+								await firebase.firestore().collection('services').doc(this.editedServices.id!).update({
+									title: this.editedServices.title,
+									description: this.editedServices.description,
+									image: url
+								}).then(() => {
+									this.$emit('changes-submitted');
+								});
+							});
+						});
+					}
+					if (this.newBox.name) {
+						this.newBox.id = this.generateId();
+						await firebase.firestore().collection('services').doc(this.editedServices.id).update({
+							boxes: firebase.firestore.FieldValue.arrayUnion(this.newBox)
+						}).then(() => {
+							this.$emit('changes-submitted');
+							console.log("box successfully added");
+						}).catch((error) => {
+							console.error("Error adding box:", error);
+						});
+					}
 				}
-			} else {
-				if (this.component === 'case-studies') {
+			} else { //addition
+				if (this.component === 'case-studies') { //Studies
 					if (!this.fileItem) {
 						console.error("No file selected for upload.");
 						return;
 					}
-					let storageRef = firebase.storage().ref("images/" + this.fileName);
+					let storageRef = firebase.storage().ref("images/" + this.caseStudyFileName);
 					let uploadTask = storageRef.put(this.fileItem);
 
 					uploadTask.on("state_changed", (snapshot) => {
@@ -358,7 +515,7 @@ export default defineComponent({
 							});
 						});
 					});
-				} else if (this.component === 'posts') {
+				} else if (this.component === 'posts') { //Posts
 					firebase.firestore().collection('posts').add({
 						title: this.editedPost.title,
 						description: this.editedPost.description,
@@ -370,8 +527,9 @@ export default defineComponent({
 					}).catch((error) => {
 						console.error("Error adding document:", error);
 					});
-				} else if (this.component === 'about-me') {
+				} else if (this.component === 'about-me') { //About
 					if (this.newTool.name && this.newTool.level) {
+						this.newTool.id = this.generateId();
 						await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
 							tool: firebase.firestore.FieldValue.arrayUnion(this.newTool)
 						}).then(() => {
@@ -382,6 +540,7 @@ export default defineComponent({
 						});
 					}
 					if (this.newLanguage.name && this.newLanguage.level) {
+						this.newLanguage.id = this.generateId();
 						await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
 							languages: firebase.firestore.FieldValue.arrayUnion(this.newLanguage)
 						}).then(() => {
@@ -392,6 +551,7 @@ export default defineComponent({
 						});
 					}
 					if (this.newEducation.year && this.newEducation.institution && this.newEducation.location && this.newEducation.course) {
+						this.newEducation.id = this.generateId();
 						await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
 							education: firebase.firestore.FieldValue.arrayUnion(this.newEducation)
 						}).then(() => {
@@ -421,23 +581,102 @@ export default defineComponent({
 							console.error("Error adding skill:", error);
 						});
 					}
+				} else if (this.component === 'services') { //Services
+					if (!this.fileItem) {
+						console.error("No file selected for upload.");
+						return;
+					}
+					let storageRef = firebase.storage().ref("images/" + this.serviceFileName);
+					let uploadTask = storageRef.put(this.fileItem);
+					let boxesArray: BoxType[] = [];
+
+					if (this.newBox.name) {
+						this.newBox.id = this.generateId();
+						boxesArray.push(this.newBox);
+					}
+					uploadTask.on("state_changed", (snapshot) => {
+						console.log(snapshot);
+					}, (error) => {
+						console.log(error);
+					}, () => {
+						uploadTask.snapshot.ref.getDownloadURL().then((url) => {
+							firebase.firestore().collection('services').add({
+								title: this.editedServices.title,
+								description: this.editedServices.description,
+								image: url,
+								boxes: boxesArray,
+								timestamp: firebase.firestore.FieldValue.serverTimestamp()
+							}).then(() => {
+								this.$emit('changes-submitted');
+								console.log("document successfully added");
+							}).catch((error) => {
+								console.error("Error adding document:", error);
+							});
+						});
+					});
+				} else if (this.component === 'backend') { //Backend images
+					if (!this.fileItem) {
+						console.error("No file selected for upload.");
+						return;
+					}
+					let storageRef = firebase.storage().ref("images/" + this.backendFileName);
+					let uploadTask = storageRef.put(this.fileItem);
+					let autoId = db.collection("backend").doc().id;
+
+					uploadTask.on("state_changed", (snapshot) => {
+						console.log(snapshot);
+					}, (error) => {
+						console.log(error);
+					}, () => {
+						uploadTask.snapshot.ref.getDownloadURL().then((url) => {
+							db.collection("backend").doc(autoId).set({
+								id: autoId,
+								image: url,
+								link: this.editedImages.link,
+								timestamp: firebase.firestore.FieldValue.serverTimestamp()
+							}).then(() => {
+								this.$emit('changes-submitted');
+								console.log("document successfully added");
+							}).catch((error) => {
+								console.error("Error adding document:", error);
+							});
+						});
+					});
 				}
 			}
 			this.closeModal();
 		},
-		fileChanged(event: any) {
+		fileChanged(event: any, type: string) {
 			this.fileItem = event.target.files[0];
-			this.fileName = this.fileItem?.name ?? '';
-			const reader = new FileReader();
-			reader.onload = () => {
-				this.editedCaseStudy.image = reader.result as string;
+			if (type === 'case-study') {
+				this.caseStudyFileName = this.fileItem?.name ?? '';
+				const reader = new FileReader();
+				reader.onload = () => {
+					this.editedCaseStudy.image = reader.result as string;
+				}
+				reader.readAsDataURL(event.target.files[0]);
+			} else if (type === 'services') {
+				this.serviceFileName = this.fileItem?.name ?? '';
+				const reader = new FileReader();
+				reader.onload = () => {
+					this.editedServices.image = reader.result as string;
+				}
+				reader.readAsDataURL(event.target.files[0]);
+			} else {
+				this.backendFileName = this.fileItem?.name ?? '';
+				const reader = new FileReader();
+				reader.onload = () => {
+					this.editedImages.image = reader.result as string;
+				}
+				reader.readAsDataURL(event.target.files[0]);
 			}
-			reader.readAsDataURL(event.target.files[0]);
 		},
 		removeImage() {
 			this.fileItem = null;
-			this.fileName = '';
+			this.caseStudyFileName = '';
 			this.editedCaseStudy.image = '';
+			this.serviceFileName = '';
+			this.editedServices.image = '';
 		},
 		deleteImage(imageUrl: string) {
 			const imageRef = firebase.storage().refFromURL(imageUrl);
@@ -449,11 +688,128 @@ export default defineComponent({
 					console.error('Error deleting image:', error);
 				});
 		},
-		removeItem(item: ToolType | SkillType | EducationType | LanguageType | ExperienceType) {
+		generateId() : string{
+			const length = 20;
+			const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+			let result = '';
+			for (let i = 0; i < length; i++) {
+				const randomIndex = Math.floor(Math.random() * characters.length);
+				result += characters.charAt(randomIndex);
+			}
+			return result;
+		},
+		async removeTool(tool: ToolType) {
+			const snapshot = await firebase.firestore().collection('about').get();
+			const about = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as AboutMeType[];
+			this.updatedTools = about[0].tool.filter(item => item.id !== tool.id);
+			await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
+				tool: this.updatedTools
+			}).then(() => {
+				this.editedAbouts.tool = this.updatedTools;
+				this.$emit('changes-submitted');
+				console.log("Tool successfully deleted");
+			}).catch((error) => {
+				console.error("Error deleting tool:", error);
+			});
+		},
+		async removeSkill(skill: SkillType) {
+			const snapshot = await firebase.firestore().collection('about').get();
+			const about = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as AboutMeType[];
+			this.updatedSkills = about[0].skill.filter(item => item.id !== skill.id);
+			await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
+				skill: this.updatedSkills
+			}).then(() => {
+				this.editedAbouts.skill = this.updatedSkills;
+				this.$emit('changes-submitted');
+				console.log("Skill successfully deleted");
+			}).catch((error) => {
+				console.error("Error deleting skill:", error);
+			});
+		},
+		async removeEducation(education: EducationType) {
+			const snapshot = await firebase.firestore().collection('about').get();
+			const about = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as AboutMeType[];
+			this.updatedEducations = about[0].education.filter(item => item.id !== education.id);
+			await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
+				education: this.updatedEducations
+			}).then(() => {
+				this.editedAbouts.education = this.updatedEducations;
+				this.$emit('changes-submitted');
+				console.log("Educations successfully deleted");
+			}).catch((error) => {
+				console.error("Error deleting educations:", error);
+			});
+		},
+		async removeExperience(experience: ExperienceType) {
+			const snapshot = await firebase.firestore().collection('about').get();
+			const about = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as AboutMeType[];
+			this.updatedExperiences = about[0].experience.filter(item => item.id !== experience.id);
+			await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
+				experience: this.updatedExperiences
+			}).then(() => {
+				this.editedAbouts.experience = this.updatedExperiences;
+				this.$emit('changes-submitted');
+				console.log("Tool successfully deleted");
+			}).catch((error) => {
+				console.error("Error deleting experience:", error);
+			});
+		},
+		async removeLanguage(language: LanguageType) {
+			const snapshot = await firebase.firestore().collection('about').get();
+			const about = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as AboutMeType[];
+			this.updatedLanguages = about[0].languages.filter(item => item.id !== language.id);
+			await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
+				languages: this.updatedLanguages
+			}).then(() => {
+				this.editedAbouts.languages = this.updatedLanguages;
+				this.$emit('changes-submitted');
+				console.log("Language successfully deleted");
+			}).catch((error) => {
+				console.error("Error deleting language:", error);
+			});
+		},
+		async removeBox(boxId: string, serviceId: string) {
+			try {
+				// Reference to the specific service document
+				const serviceRef = firebase.firestore().collection('services').doc(serviceId);
+				// Get the document
+				const doc = await serviceRef.get();
+				if (doc.exists) {
+					// Get the service data
+					const serviceData = doc.data();
+					// Check if serviceData and serviceData.boxes are defined
+					if (serviceData && Array.isArray(serviceData.boxes)) {
+						// Filter out the box to be removed
+						const updatedBoxes = serviceData.boxes.filter((box: any) => box.id !== boxId);
 
+						// Update the document with the new array
+						await serviceRef.update({ boxes: updatedBoxes });
+
+						// Update local state
+						this.editedServices.boxes = this.editedServices.boxes.filter((box: any) => box.id !== boxId);
+
+						console.log(`Box with id ${boxId} removed successfully`);
+						this.$emit('changes-submitted');
+					} else {
+						console.error('Service data or boxes array is undefined');
+					}
+				} else {
+					console.log('Service document does not exist');
+				}
+			} catch (error) {
+				console.error('Error removing box: ', error);
+				alert(error);
+			}
+		},
+		addBox() {
+			if (this.newBox.name.trim() !== '') {
+				this.editedServices.boxes.push({ id: this.generateId(), name: this.newBox.name });
+				this.newBox.name = ''; // Clear the input
+				this.isAddBoxActive = false; // Hide the input field and show the plus button
+			}
 		},
 
-	},
+	}
 });
 </script>
 

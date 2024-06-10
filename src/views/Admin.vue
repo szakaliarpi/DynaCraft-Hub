@@ -30,6 +30,13 @@
 					  v-bind:class="{ 'admin-group-active': isActive === 'services'}">Services
 				</span>
 			</div>
+			<div class="admin-group-item" v-on:click="setActive('backend')">
+				<img alt="services" class="admin-icon center" src="../assets/icons/images.png"
+					 v-bind:class="{ 'admin-icon-active' : isActive === 'backend'}"/>
+				<span class="admin-group"
+					  v-bind:class="{ 'admin-group-active': isActive === 'backend'}">Backend
+				</span>
+			</div>
 		</div>
 
 		<div v-show="isActive === 'case-studies'">
@@ -44,6 +51,9 @@
 		<div v-show="isActive === 'services'">
 			<Services :component="isActive"></Services>
 		</div>
+		<div v-show="isActive === 'backend'">
+			<Backend :component="isActive"></Backend>
+		</div>
 	</div>
 </template>
 
@@ -56,6 +66,7 @@ import AboutMe from "@/components/admin/About.vue";
 import Services from "@/components/admin/Services.vue";
 import Posts from "@/components/admin/Posts.vue";
 import About from "@/components/admin/About.vue";
+import Backend from "@/components/admin/Backend.vue";
 
 export default defineComponent({
 	components: {
@@ -65,7 +76,8 @@ export default defineComponent({
 		Navbar,
 		AdminNavbar,
 		Posts,
-		About
+		About,
+		Backend
 	},
 	data() {
 		return {

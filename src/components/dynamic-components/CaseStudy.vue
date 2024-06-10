@@ -27,7 +27,6 @@
 					:component="component"
 					:is-edit-mode="isEditable"
 					:is-open="isAdminModalOpen"
-					:post="null"
 					@close="closeModal('admin')"
 					@changes-submitted="getCaseStudiesFromFirebase"/>
 		<NoticeModal :isOpen="isNoticeModalOpen"

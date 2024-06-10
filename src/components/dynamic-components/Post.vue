@@ -55,7 +55,7 @@ export default defineComponent({
 	},
 	data() {
 		return {
-			isEditable: true as boolean,
+			isEditable: false as boolean,
 			isPostModalOpen: false as boolean,
 			isNoticeModalOpen: false as boolean,
 			message: Messages.notice,
@@ -83,13 +83,10 @@ export default defineComponent({
 		},
 		openModal(editMode: boolean, post: PostType | null) {
 			if (editMode && post) {
-				// If in edit mode and caseStudy is provided, set isEditable to true for editing mode
 				this.isEditable = true;
 				this.editedPosts = {...post};
 			} else {
-				// If not in edit mode or caseStudy is not provided, set isEditable to false for addition mode
 				this.isEditable = false;
-				// Reset editedCaseStudy for addition mode
 				this.editedPosts = {
 					id: "",
 					title: "",
@@ -112,11 +109,10 @@ export default defineComponent({
 		deleteConfirmed() {
 			this.isNoticeModalOpen = false;
 			firebase.firestore().collection('posts').doc(this.editedPosts.id).delete().then(() => {
-				this.getPostsFromFirebase(); // Refresh the case studies
-				this.isPostModalOpen = false; // Open the admin modal or perform any other action
+				this.getPostsFromFirebase();
+				this.isPostModalOpen = false;
 			}).catch(error => {
 				console.error("Error removing document: ", error);
-				this.message = "Couldn't delete, try again!"
 				this.isNoticeModalOpen = true;
 			});
 		}

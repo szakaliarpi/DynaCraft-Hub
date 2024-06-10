@@ -10,7 +10,7 @@
 							<mark class="coral">innovation</mark>.
 						</div>
 
-						<div class="is-flex gap">
+						<div class="is-flex gap-30">
 							<div class="first-panel-text">
 								Fusing design with user goals, crafting seamless experiences.
 							</div>
@@ -89,17 +89,7 @@
 		</div>
 
 		<div class="design-container" v-show="isActive === 'back-end'">
-			<div class="text-center mb-50">
-				<img alt="backend" class="backend" src="../assets/logofolio..svg"/>
-			</div>
-
-			<div class="backend-container">
-				<a class="backend-grid-item" id="php" href="https://www.php.net/"><img src="../assets/backend/php-logo.png" alt="php"></a>
-				<a class="backend-grid-item" id="firebase" href="https://firebase.google.com/"><img src="../assets/backend/firebase-logo.png" alt="firebase"></a>
-				<a class="backend-grid-item" id="laravel" href="https://laravel.com/"><img src="../assets/backend/laravel-logo.jpg" alt="laravel"></a>
-				<a class="backend-grid-item" id="mysql" href="https://www.mysql.com/"><img src="../assets/backend/mysql-logo.png" alt="mysql"></a>
-			</div>
-
+			<Backend/>
 		</div>
 		<Contact></Contact>
 	</div>
@@ -112,9 +102,11 @@ import {defineComponent} from "vue";
 import {RouteLocationNormalized, RouteLocationNormalizedLoaded} from "vue-router";
 import CaseStudy from "@/components/dynamic-components/CaseStudy.vue";
 import Post from "@/components/dynamic-components/Post.vue";
+import Backend from "@/components/admin/Backend.vue";
 
 export default defineComponent({
 	components: {
+		Backend,
 		CaseStudy,
 		Contact,
 		Navbar,
