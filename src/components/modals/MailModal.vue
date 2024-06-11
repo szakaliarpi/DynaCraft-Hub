@@ -6,10 +6,11 @@
 				<h3>{{ mail.message.sender }}</h3>
 				<h4>{{ mail.message.messageSubject }}</h4>
 				<p>{{ mail.message.text }}</p>
-				<div class="is-flex space-between">
+				<div class="mail-footer">
 					<span>{{ mail.message.fromEmail }}</span>
 					<span>{{ formatTimestamp(mail.message.timestamp) }}</span>
 				</div>
+
 			</div>
 		</div>
 	</div>

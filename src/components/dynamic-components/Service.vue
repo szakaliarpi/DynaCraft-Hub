@@ -3,7 +3,7 @@
 		<Navbar v-show="!isAdminPage"></Navbar>
 		<div class="services">
 			<div v-show="!isAdminPage" class="text-center mb-50">
-				<img alt="services" class="case-studies" src="../../assets/services.svg"/>
+				<img alt="services" class="service-image" src="../../assets/services.svg"/>
 			</div>
 
 			<div v-show="isAdminPage" class="add-box" @click="openModal(false, null)">

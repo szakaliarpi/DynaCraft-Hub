@@ -45,7 +45,13 @@
     position: relative;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 500px;
+    width: 80%;
+}
+
+@media screen and (min-width: 768px) {
+    .mail-content {
+        width: 25%;
+    }
 }
 
 .mail-content::-webkit-scrollbar {
@@ -60,3 +66,14 @@
     top: 7px;
 }
 
+.mail-footer {
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 768px) {
+    .mail-footer {
+        justify-content: space-between;
+        flex-direction: row;;
+    }
+}

@@ -55,9 +55,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="text-center">
-				<img alt="transparent-icon" class="transparent-icon" src="../assets/transparent-logo.svg"/>
-			</div>
 		</div>
 
 		<div class="work-group-container">
@@ -76,9 +73,6 @@
 		</div>
 
 		<div class="design-container" v-show="isActive === 'front-end'">
-			<div class="text-center mb-50">
-				<img alt="case-studies" class="case-studies " src="../assets/case-studies.svg"/>
-			</div>
 			<CaseStudy/>
 		</div>
 

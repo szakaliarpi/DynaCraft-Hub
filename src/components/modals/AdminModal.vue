@@ -73,7 +73,7 @@
 					<label>Languages</label>
 					<div class="chart-container" v-for="language in editedAbouts.languages">
 						<input v-model="language.name" placeholder="language" type="text" class="mb-10">
-						<input v-model="language.level" placeholder="level" type="number" class="mb-10">
+						<input v-model="language.level" placeholder="0" type="number" class="mb-10">
 					</div>
 					<label>Experience</label>
 					<div v-for="experience in editedAbouts.experience">
@@ -336,11 +336,10 @@ export default defineComponent({
 		post(newPost: PostType) {
 			this.editedPost = {...newPost};
 			this.originalPost = { ...newPost };
-
 		},
 		about(newAbout: AboutMeType) {
 			this.editedAbouts = {...newAbout};
-			this.originalAbouts = { ...newAbout };
+			this.originalAbouts = JSON.parse(JSON.stringify(newAbout)); // Deep copy
 		},
 		service(newService: ServiceType) {
 			this.editedServices = { ...newService };
@@ -352,7 +351,6 @@ export default defineComponent({
 			this.originalBackend = { ...newImage };
 			this.oldServiceImageUrl = this.editedImages.image;
 		}
-
 	},
 	computed: {
 		saveDisabled() :any {
@@ -365,7 +363,9 @@ export default defineComponent({
 				case 'posts':
 					return JSON.stringify(this.originalPost) !== JSON.stringify(this.editedPost);
 				case 'about-me':
-					return JSON.stringify(this.originalAbouts) !== JSON.stringify(this.editedAbouts);
+					console.log(this.originalAbouts);
+					console.log(this.editedAbouts);
+					return !this.deepEqual(this.originalAbouts, this.editedAbouts); // Use deepEqual
 				case 'services':
 					return JSON.stringify(this.originalServices) !== JSON.stringify(this.editedServices);
 				case 'backend':
@@ -804,9 +804,24 @@ export default defineComponent({
 		addBox() {
 			if (this.newBox.name.trim() !== '') {
 				this.editedServices.boxes.push({ id: this.generateId(), name: this.newBox.name });
-				this.newBox.name = ''; // Clear the input
-				this.isAddBoxActive = false; // Hide the input field and show the plus button
+				this.newBox.name = '';
+				this.isAddBoxActive = false;
 			}
+		},
+		deepEqual(obj1: any, obj2: any) {
+			if (obj1 === obj2) return true;
+			if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) return false;
+
+			const keys1 = Object.keys(obj1);
+			const keys2 = Object.keys(obj2);
+
+			if (keys1.length !== keys2.length) return false;
+
+			for (const key of keys1) {
+				if (!keys2.includes(key)) return false;
+				if (!this.deepEqual(obj1[key], obj2[key])) return false;
+			}
+			return true;
 		},
 
 	}
