@@ -11,6 +11,7 @@ export const Messages = {
     invalid_email: "Invalid email address",
     message_required: "Message is required",
     message_restriction: "Message cannot exceed 500 characters",
+    enter: '(press enter to submit)',
 };
 
 export const ContactInfo = {
@@ -18,6 +19,13 @@ export const ContactInfo = {
     contact: 'hello@dynacraft.hub',
     phone: '+40 712 345 678',
 };
+
+export const Subject = {
+    option1: "IT Consulting",
+    option2: "Front-end",
+    option3: "Back-end",
+    option4: "Other",
+}
 
 export const EmailTemplate = `
 <div style="font-size: 16px;">

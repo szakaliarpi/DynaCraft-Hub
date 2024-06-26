@@ -17,8 +17,8 @@
 				</div>
 				<div :style="{ 'background-image': 'url(' + service.image + ')' }" class="services-icon"></div>
 				<div class="services-text">
-					<div class="services-title">{{ service.title }}</div>
-					<div class="services-description">{{ service.description }}</div>
+					<div class="services-title">{{ truncateTitle(service.title) }}</div>
+					<div class="services-description">{{ truncateDescription(service.description) }}</div>
 					<div class="box-container">
 						<div v-for="box in service.boxes">
 							<div class="services-shadowed-boxes">
@@ -29,7 +29,7 @@
 				</div>
 			</div>
 
-			<div v-show="!isAdminPage" class="text-center mt-30">
+			<div v-show="!isAdminPage" class="text-center mt-30 mb-30">
 				<router-link class="button button--orange" to="/get-in-touch">reach out to me</router-link>
 			</div>
 		</div>
@@ -98,6 +98,18 @@ export default defineComponent({
 		};
 	},
 	methods: {
+		truncateDescription(text: string): string {
+			if (text.length > 218) {
+				return text.substring(0, 215) + '...';
+			}
+			return text;
+		},
+		truncateTitle(text: string): string {
+			if (text.length > 28) {
+				return text.substring(0, 25) + '...';
+			}
+			return text;
+		},
 		async getServicesFromFirebase() {
 			const snapshot = await firebase.firestore().collection('services').get();
 			this.services = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()})) as ServiceType[];

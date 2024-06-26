@@ -34,52 +34,52 @@
 
 			<div v-show="component === 'posts'">
 				<label for="title">Title</label>
-				<input v-model="editedPost.title" placeholder="Title" type="text">
+				<input v-model="editedPost.title" placeholder="Title" type="text"/>
 				<label for="description">Description</label>
 				<textarea v-model="editedPost.description" class="" placeholder="Description"></textarea>
 				<label for="Link">Date</label>
-				<input v-model="editedPost.date" placeholder="Date" type="text">
+				<input v-model="editedPost.date" placeholder="Date" type="text"/>
 				<label for="image">Link</label>
-				<input v-model="editedPost.link" placeholder="Link" type="text">
+				<input v-model="editedPost.link" placeholder="Link" type="text"/>
 			</div>
 
 			<div v-show="component === 'about-me'">
 				<div v-if="isEditMode">
 					<label>Title</label>
-					<input v-model="editedAbouts.title" placeholder="Title" type="text">
+					<input v-model="editedAbouts.title" placeholder="Title" type="text"/>
 					<label>Name</label>
-					<input v-model="editedAbouts.name" placeholder="Name" type="text">
+					<input v-model="editedAbouts.name" placeholder="Name" type="text"/>
 					<label>Introduction</label>
 					<textarea v-model="editedAbouts.introduction" placeholder="Introduction"></textarea>
 					<label for="Link">Tools</label>
 					<div v-for="(item, index) in editedAbouts.tool" :key="index" class="chart-container">
-						<input v-model="item.name" placeholder="name" type="text" class="mb-10">
-						<input v-model="item.level" placeholder="0" type="number" class="mb-10">
+						<input v-model="item.name" placeholder="name" type="text" class="mb-10"/>
+						<input v-model="item.level" placeholder="0" type="number" class="mb-10"/>
 					</div>
 					<label>Skills</label>
 					<div v-for="skill in editedAbouts.skill">
-						<input v-model="skill.title" placeholder="Title" type="text" class="mb-10">
+						<input v-model="skill.title" placeholder="Title" type="text" class="mb-10"/>
 						<textarea v-model="skill.description" placeholder="Title" class="mb-30"></textarea>
 					</div>
 					<label>Soft skills</label>
 					<textarea v-model="editedAbouts.soft_skill" placeholder="Title"></textarea>
 					<label>Education</label>
 					<div v-for="edu in editedAbouts.education">
-						<input v-model="edu.year" placeholder="year" type="text" class="mb-10">
-						<input v-model="edu.institution" placeholder="institution" type="text" class="mb-10">
-						<input v-model="edu.location" placeholder="location" type="text" class="mb-10">
-						<input v-model="edu.course" placeholder="course" type="text" class="mb-30">
+						<input v-model="edu.year" placeholder="year" type="text" class="mb-10"/>
+						<input v-model="edu.institution" placeholder="institution" type="text" class="mb-10"/>
+						<input v-model="edu.location" placeholder="location" type="text" class="mb-10"/>
+						<input v-model="edu.course" placeholder="course" type="text" class="mb-30"/>
 					</div>
 					<label>Languages</label>
 					<div class="chart-container" v-for="language in editedAbouts.languages">
-						<input v-model="language.name" placeholder="language" type="text" class="mb-10">
-						<input v-model="language.level" placeholder="0" type="number" class="mb-10">
+						<input v-model="language.name" placeholder="language" type="text" class="mb-10"/>
+						<input v-model="language.level" placeholder="0" type="number" class="mb-10"/>
 					</div>
 					<label>Experience</label>
 					<div v-for="experience in editedAbouts.experience">
-						<input v-model="experience.firm" placeholder="firm" type="text" class="mb-10">
-						<input v-model="experience.duration" placeholder="duration" type="text" class="mb-10">
-						<input v-model="experience.role" placeholder="role" type="text" class="mb-10">
+						<input v-model="experience.firm" placeholder="firm" type="text" class="mb-10"/>
+						<input v-model="experience.duration" placeholder="duration" type="text" class="mb-10"/>
+						<input v-model="experience.role" placeholder="role" type="text" class="mb-10"/>
 					</div>
 					<label>Facts</label>
 					<textarea v-model="editedAbouts.fact" placeholder="fact"></textarea>
@@ -87,86 +87,98 @@
 				<div v-else>
 					<div>
 						<label for="Link">Tools</label>
-						<div v-for="tool in editedAbouts.tool" class="about-addition-container">
-							<p class="mr-10">{{ tool.name }}</p>
-							<p class="mr-10 is-orange">{{ tool.level }}</p>
-							<img alt="remove" class="remove-item" src="../../assets/icons/red-trash.png" @click="removeTool(tool)"/>
+						<div v-for="(tool, index) in editedAbouts.tool" :class="{'about-addition-container' : index !== editedAbouts.tool.length-1 || !newToolAdded }">
+							<p v-if="index !== editedAbouts.tool.length-1 || !newToolAdded" class="mr-10">{{ tool.name }}</p>
+							<p v-if="index !== editedAbouts.tool.length-1 || !newToolAdded" class="mr-10 is-orange">{{ tool.level }}</p>
+							<img v-if="index !== editedAbouts.tool.length-1 || !newToolAdded" alt="remove" class="remove-item" src="../../assets/icons/red-trash.png" @click="removeTool(tool)"/>
+
+							<div v-if="index === editedAbouts.tool.length-1 && newToolAdded" class="chart-container">
+								<input v-model="editedAbouts.tool[index].name"  placeholder="name" type="text" class="mb-10"/>
+								<input v-model="editedAbouts.tool[index].level" @input="validateLevel(index)"
+									   min=0 max=100 placeholder="0" type="number" class="mb-10"/>
+							</div>
 						</div>
-						<div v-show="isAddToolActive" class="chart-container">
-							<input v-model="newTool.name" placeholder="name" type="text" class="mb-10">
-							<input v-model="newTool.level" placeholder="0" type="number" class="mb-10">
-						</div>
-						<div v-show="!isAddToolActive" class="about-addition-box" >
-							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="isAddToolActive = true"/>
+
+						<div class="about-addition-box" >
+							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="addNewItem('tool')"/>
 						</div>
 					</div>
 
 					<div>
 						<label>Skills</label>
-						<div v-for="skill in editedAbouts.skill" class="about-addition-container">
-							<p>{{ skill.title }}</p>
-							<img alt="remove" class="remove-item" src="../../assets/icons/red-trash.png" @click="removeSkill(skill)"/>
+						<div v-for="(skill, index) in editedAbouts.skill" :class="{'about-education-container' : index !== editedAbouts.skill.length-1 || !newSkillAdded }">
+							<p v-if="index !== editedAbouts.skill.length-1 || !newSkillAdded" class="mb-10">{{ skill.title }}</p>
+							<p v-if="index !== editedAbouts.skill.length-1 || !newSkillAdded">{{ skill.description }}</p>
+							<img v-if="index !== editedAbouts.skill.length-1 || !newSkillAdded" alt="remove" class="remove-item-top" src="../../assets/icons/red-trash.png" @click="removeSkill(skill)"/>
+
+							<div v-if="index === editedAbouts.skill.length-1 && newSkillAdded">
+								<input v-model="editedAbouts.skill[index].title" placeholder="Title" type="text" class="mb-10"/>
+								<textarea v-model="editedAbouts.skill[index].description" placeholder="description" class="mb-10"></textarea>
+							</div>
 						</div>
-						<div v-show="isAddSkillActive">
-							<input v-model="newSkill.title" placeholder="Title" type="text" class="mb-10">
-							<textarea v-model="newSkill.description" placeholder="Title" class="mb-30"></textarea>
-						</div>
-						<div v-show="!isAddSkillActive" class="about-addition-box">
-							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="isAddSkillActive = true"/>
+
+						<div class="about-addition-box">
+							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="addNewItem('skill')"/>
 						</div>
 					</div>
 
 					<div>
 						<label>Education</label>
-						<div v-for="edu in editedAbouts.education" class="about-education-container">
-							<p class="align-left">{{ edu.year }}</p>
-							<p class="align-left">{{ edu.institution }}</p>
-							<p class="align-left">{{ edu.location }}</p>
-							<p class="align-left">{{ edu.course }}</p>
-							<img alt="remove" class="remove-item-top" src="../../assets/icons/red-trash.png" @click="removeEducation(edu)"/>
+						<div v-for="(edu, index) in editedAbouts.education" :class="{'about-education-container' : index !== editedAbouts.education.length-1 || !newEducationAdded }">
+							<p v-if="index !== editedAbouts.education.length-1 || !newEducationAdded" class="align-left">{{ edu.year }}</p>
+							<p v-if="index !== editedAbouts.education.length-1 || !newEducationAdded" class="align-left">{{ edu.institution }}</p>
+							<p v-if="index !== editedAbouts.education.length-1 || !newEducationAdded" class="align-left">{{ edu.location }}</p>
+							<p v-if="index !== editedAbouts.education.length-1 || !newEducationAdded" class="align-left">{{ edu.course }}</p>
+							<img v-if="index !== editedAbouts.education.length-1 || !newEducationAdded" alt="remove" class="remove-item-top" src="../../assets/icons/red-trash.png" @click="removeEducation(edu)"/>
+
+							<div v-if="index === editedAbouts.education.length-1 && newEducationAdded">
+								<input v-model="editedAbouts.education[index].year" placeholder="year" type="text" class="mb-10"/>
+								<input v-model="editedAbouts.education[index].institution" placeholder="institution" type="text" class="mb-10"/>
+								<input v-model="editedAbouts.education[index].location" placeholder="location" type="text" class="mb-10"/>
+								<input v-model="editedAbouts.education[index].course" placeholder="course" type="text" class="mb-30"/>
+							</div>
 						</div>
-						<div v-show="isAddEducationActive">
-							<input v-model="newEducation.year" placeholder="year" type="text" class="mb-10">
-							<input v-model="newEducation.institution" placeholder="institution" type="text" class="mb-10">
-							<input v-model="newEducation.location" placeholder="location" type="text" class="mb-10">
-							<input v-model="newEducation.course" placeholder="course" type="text" class="mb-30">
-						</div>
-						<div v-show="!isAddEducationActive" class="about-addition-box">
-							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="isAddEducationActive = true"/>
+
+						<div class="about-addition-box">
+							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png"  @click="addNewItem('education')"/>
 						</div>
 					</div>
 
 					<div>
 						<label>Languages</label>
-						<div v-for="language in editedAbouts.languages" class="about-addition-container">
-							<p>{{ language.name }}</p>
-							<p class="mr-10 is-orange">{{ language.level }}</p>
-							<img alt="remove" class="remove-item" src="../../assets/icons/red-trash.png" @click="removeLanguage(language)"/>
+						<div v-for="(language, index) in editedAbouts.languages" :class="{'about-addition-container' : index !== editedAbouts.languages.length-1 || !newLanguageAdded }">
+							<p v-if="index !== editedAbouts.languages.length-1 || !newLanguageAdded">{{ language.name }}</p>
+							<p v-if="index !== editedAbouts.languages.length-1 || !newLanguageAdded" class="mr-10 is-orange">{{ language.level }}</p>
+							<img v-if="index !== editedAbouts.languages.length-1 || !newLanguageAdded" alt="remove" class="remove-item" src="../../assets/icons/red-trash.png" @click="removeLanguage(language)"/>
+
+							<div v-if="index === editedAbouts.languages.length-1 && newLanguageAdded" class="chart-container">
+								<input v-model="editedAbouts.languages[index].name" placeholder="language" type="text" class="mb-10"/>
+								<input v-model="editedAbouts.languages[index].level" placeholder="0" min=0 max=100 @input="validateLevel(index)" type="number" class="mb-10"/>
+							</div>
 						</div>
-						<div v-show="isAddLanguageActive" class="chart-container">
-							<input v-model="newLanguage.name" placeholder="language" type="text" class="mb-10">
-							<input v-model="newLanguage.level" placeholder="0" type="number" class="mb-10">
-						</div>
-						<div v-show="!isAddLanguageActive" class="about-addition-box">
-							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="isAddLanguageActive = true"/>
+
+						<div class="about-addition-box">
+							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="addNewItem('language')"/>
 						</div>
 					</div>
 
 					<div>
 						<label>Experience</label>
-						<div v-for="experience in editedAbouts.experience" class="about-education-container">
-							<p class="align-left">{{ experience.firm }}</p>
-							<p class="align-left">{{ experience.duration }}</p>
-							<p class="align-left">{{ experience.role }}</p>
-							<img alt="remove" class="remove-item-top" src="../../assets/icons/red-trash.png" @click="removeExperience(experience)"/>
+						<div v-for="(experience, index) in editedAbouts.experience" :class="{'about-education-container' : index !== editedAbouts.experience.length-1 || !newExperienceAdded }">
+							<p v-if="index !== editedAbouts.experience.length-1 || !newExperienceAdded" class="align-left">{{ experience.firm }}</p>
+							<p v-if="index !== editedAbouts.experience.length-1 || !newExperienceAdded" class="align-left">{{ experience.duration }}</p>
+							<p v-if="index !== editedAbouts.experience.length-1 || !newExperienceAdded" class="align-left">{{ experience.role }}</p>
+							<img v-if="index !== editedAbouts.experience.length-1 || !newExperienceAdded" alt="remove" class="remove-item-top" src="../../assets/icons/red-trash.png" @click="removeExperience(experience)"/>
+
+							<div v-if="index === editedAbouts.experience.length-1 && newExperienceAdded">
+								<input v-model="editedAbouts.experience[index].firm" placeholder="firm" type="text" class="mb-10"/>
+								<input v-model="editedAbouts.experience[index].duration" placeholder="duration" type="text" class="mb-10"/>
+								<input v-model="editedAbouts.experience[index].role" placeholder="role" type="text" class="mb-10"/>
+							</div>
 						</div>
-						<div v-show="isAddExperienceActive">
-							<input v-model="newExperience.firm" placeholder="firm" type="text" class="mb-10">
-							<input v-model="newExperience.duration" placeholder="duration" type="text" class="mb-10">
-							<input v-model="newExperience.role" placeholder="role" type="text" class="mb-10">
-						</div>
-						<div v-show="!isAddExperienceActive" class="about-addition-box">
-							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png"  @click="isAddExperienceActive = true"/>
+
+						<div class="about-addition-box">
+							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png"  @click="addNewItem('experience')"/>
 						</div>
 					</div>
 				</div>
@@ -174,7 +186,7 @@
 
 			<div v-show="component === 'services'">
 				<label for="title">Title</label>
-				<input v-model="editedServices.title" placeholder="Title" type="text">
+				<input v-model="editedServices.title" placeholder="Title" type="text"/>
 				<label for="description">Description</label>
 				<textarea v-model="editedServices.description" placeholder="Description"></textarea>
 				<label for="image">Image</label>
@@ -193,7 +205,7 @@
 						<img alt="remove" class="remove" src="../../assets/icons/red-trash.png" @click="removeImage()"/>
 					</div>
 				</div>
-				<label for="boxes">Boxes <mark>(press enter to add more)</mark></label>
+				<label for="boxes">Boxes <mark>{{ enter }}</mark></label>
 				<div class="box-container">
 					<div v-for="box in editedServices.boxes" :key="box.id">
 						<div class="services-shadowed-boxes">
@@ -203,7 +215,7 @@
 					</div>
 				</div>
 				<div v-show="isAddBoxActive">
-					<input v-model="newBox.name" placeholder="box name" type="text" class="mb-10 mt-10" @keydown.enter="addBox">
+					<input v-model="newBox.name" placeholder="box name" type="text" class="mb-10 mt-10"/>
 				</div>
 				<div v-show="!isAddBoxActive" class="about-addition-box">
 					<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="isAddBoxActive = true"/>
@@ -224,7 +236,7 @@
 				</div>
 
 				<label for="Link">Link</label>
-				<input v-model="editedImages.link" placeholder="Link" type="text">
+				<input v-model="editedImages.link" placeholder="Link" type="text"/>
 			</div>
 
 			<div class="text-center mt-30">
@@ -250,6 +262,7 @@ import {ServiceType} from "@/components/types/ServiceType";
 import {BackendType} from "@/components/types/BackendType";
 import {BoxType} from "@/components/types/BoxType";
 import {db} from "@/main";
+import {Messages} from "@/config/config";
 
 // composition API in Vue.js with TypeScript,
 export default defineComponent({
@@ -301,7 +314,6 @@ export default defineComponent({
 			oldStudyImageUrl: null as string | null,
 			oldServiceImageUrl: null as string | null,
 			oldBackendImageImageUrl: null as string | null,
-			isAddToolActive: false as boolean,
 			isAddExperienceActive: false as boolean,
 			isAddLanguageActive: false as boolean,
 			isAddSkillActive: false as boolean,
@@ -325,6 +337,13 @@ export default defineComponent({
 			originalServices: {} as ServiceType,
 			originalBackend: {} as BackendType,
 			backendFileName: '' as string,
+			enter: Messages.enter,
+			newToolAdded: false as boolean,
+			newSkillAdded: false as boolean,
+			newLanguageAdded: false as boolean,
+			newEducationAdded: false as boolean,
+			newExperienceAdded: false as boolean,
+			newServiceAdded: false as boolean,
 		};
 	},
 	watch: {
@@ -343,7 +362,7 @@ export default defineComponent({
 		},
 		service(newService: ServiceType) {
 			this.editedServices = { ...newService };
-			this.originalServices = { ...newService };
+			this.originalServices = JSON.parse(JSON.stringify(newService)); // Deep copy
 			this.oldServiceImageUrl = this.editedServices.image;
 		},
 		backend (newImage: BackendType) {
@@ -353,21 +372,20 @@ export default defineComponent({
 		}
 	},
 	computed: {
-		saveDisabled() :any {
+		saveDisabled() : boolean {
 			return !this.isModified;
 		},
 		isModified() :any {
+			console.log(this.component);
 			switch (this.component) {
 				case 'case-studies':
 					return JSON.stringify(this.originalCaseStudy) !== JSON.stringify(this.editedCaseStudy);
 				case 'posts':
 					return JSON.stringify(this.originalPost) !== JSON.stringify(this.editedPost);
 				case 'about-me':
-					console.log(this.originalAbouts);
-					console.log(this.editedAbouts);
-					return !this.deepEqual(this.originalAbouts, this.editedAbouts); // Use deepEqual
+					return !this.deepEqual(this.originalAbouts, this.editedAbouts);
 				case 'services':
-					return JSON.stringify(this.originalServices) !== JSON.stringify(this.editedServices);
+					return !this.deepEqual(this.originalServices, this.editedServices);
 				case 'backend':
 					return JSON.stringify(this.originalBackend) !== JSON.stringify(this.editedImages);
 				default:
@@ -376,20 +394,91 @@ export default defineComponent({
 		}
 	},
 	methods: {
+		addNewItem(type: string) {
+			switch (type) {
+				case 'tool':
+					this.newToolAdded = true;
+					if (this.editedAbouts.tool && this.editedAbouts.tool.length > 0) {
+						const lastTool = this.editedAbouts.tool[this.editedAbouts.tool.length - 1];
+						if (lastTool.name !== "" && lastTool.level !== 0) {
+							this.editedAbouts.tool.push({id: this.generateId(), level: 0, name: ""});
+						}
+					} else {
+						this.editedAbouts.tool = [{id: this.generateId(), level: 0, name: ""}];
+					}
+					break;
+				case 'skill':
+					this.newSkillAdded = true;
+					if (this.editedAbouts.skill && this.editedAbouts.skill.length > 0) {
+						const lastSkill = this.editedAbouts.skill[this.editedAbouts.skill.length - 1];
+						if (lastSkill.title !== "" && lastSkill.description !== "") {
+							this.editedAbouts.skill.push({id: this.generateId(), title: "", description: ""});
+						}
+					} else {
+						this.editedAbouts.skill = [{id: this.generateId(), title: "", description: ""}];
+					}
+					break;
+				case 'education':
+					this.newEducationAdded = true;
+					if (this.editedAbouts.education && this.editedAbouts.education.length > 0) {
+						const lastEducation = this.editedAbouts.education[this.editedAbouts.education.length - 1];
+						if (lastEducation.year !== "" && lastEducation.location !== "" && lastEducation.institution !== "" && lastEducation.course !== "") {
+							this.editedAbouts.education.push({id: this.generateId(), year: "", location: "", institution: "", course: ""});
+						}
+					} else {
+						this.editedAbouts.education = [{id: this.generateId(), year: "", location: "", institution: "", course: ""}];
+					}
+					break;
+				case 'language':
+					this.newLanguageAdded = true;
+					if (this.editedAbouts.languages && this.editedAbouts.languages.length > 0) {
+						const lastLanguage = this.editedAbouts.languages[this.editedAbouts.languages.length - 1];
+						if (lastLanguage.name !== "" && lastLanguage.level !== 0 ) {
+							this.editedAbouts.languages.push({id: this.generateId(), name: "", level: 0 });
+						}
+					} else {
+						this.editedAbouts.languages = [{id: this.generateId(), name: "", level: 0 }];
+					}
+					break;
+				case 'experience':
+					this.newExperienceAdded = true;
+					if (this.editedAbouts.experience && this.editedAbouts.experience.length > 0) {
+						const lastEducation = this.editedAbouts.experience[this.editedAbouts.experience.length - 1];
+						if (lastEducation.role !== "" && lastEducation.firm !== "" && lastEducation.duration !== "") {
+							this.editedAbouts.experience.push({id: this.generateId(), role: "", firm: "", duration: ""});
+						}
+					} else {
+						this.editedAbouts.experience = [{id: this.generateId(), role: "", firm: "", duration: ""}];
+					}
+					break;
+				case 'service':
+
+					break;
+				default :
+					break;
+			}
+
+		},
 		closeModal() {
 			this.fileItem = null;
 			this.caseStudyFileName = '';
 			this.serviceFileName = '';
-			this.isAddToolActive = false;
 			this.isAddEducationActive = false;
 			this.isAddSkillActive = false;
 			this.isAddLanguageActive = false;
 			this.isAddExperienceActive = false;
 			this.isAddBoxActive = false;
+			this.newToolAdded = false;
+			this.newSkillAdded = false;
+			this.newLanguageAdded = false;
+			this.newExperienceAdded = false;
+			this.newEducationAdded = false;
+			this.newServiceAdded = false;
 			this.$emit("close");
 		},
 		async submitChanges() { //edit
 			if (this.isEditMode) {
+				console.log('edit');
 				if (this.component === 'case-studies') {
 					if (this.oldStudyImageUrl === this.editedCaseStudy.image) {
 						await firebase.firestore().collection('studies').doc(this.editedCaseStudy.id!).update({
@@ -474,19 +563,22 @@ export default defineComponent({
 							});
 						});
 					}
-					if (this.newBox.name) {
-						this.newBox.id = this.generateId();
+					if (this.newBox.name !== '') {
+						const newBox = { id: this.generateId(), name: this.newBox.name.trim() };
 						await firebase.firestore().collection('services').doc(this.editedServices.id).update({
-							boxes: firebase.firestore.FieldValue.arrayUnion(this.newBox)
+							boxes: firebase.firestore.FieldValue.arrayUnion(newBox)
 						}).then(() => {
 							this.$emit('changes-submitted');
-							console.log("box successfully added");
+							console.log("Box successfully added");
 						}).catch((error) => {
 							console.error("Error adding box:", error);
 						});
+						this.newBox.name = '';
+						this.isAddBoxActive = false;
 					}
 				}
 			} else { //addition
+				console.log('addition');
 				if (this.component === 'case-studies') { //Studies
 					if (!this.fileItem) {
 						console.error("No file selected for upload.");
@@ -516,11 +608,13 @@ export default defineComponent({
 						});
 					});
 				} else if (this.component === 'posts') { //Posts
-					firebase.firestore().collection('posts').add({
+					let autoId = db.collection("posts").doc().id;
+					db.collection("posts").doc(autoId).set({
 						title: this.editedPost.title,
 						description: this.editedPost.description,
 						date: this.editedPost.date,
-						link: this.editedPost.link
+						link: this.editedPost.link,
+						timestamp: firebase.firestore.FieldValue.serverTimestamp()
 					}).then(() => {
 						this.$emit('changes-submitted');
 						console.log("document successfully added");
@@ -528,32 +622,42 @@ export default defineComponent({
 						console.error("Error adding document:", error);
 					});
 				} else if (this.component === 'about-me') { //About
-					if (this.newTool.name && this.newTool.level) {
-						this.newTool.id = this.generateId();
+					if (this.editedAbouts.tool.length > 0) {
+						const index = this.editedAbouts.tool.length - 1;
+						if (this.editedAbouts.tool[index].name === '' || this.editedAbouts.tool[index].level === 0) {
+							this.editedAbouts.tool.pop();
+						}
 						await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
-							tool: firebase.firestore.FieldValue.arrayUnion(this.newTool)
+							tool: this.editedAbouts.tool
 						}).then(() => {
 							this.$emit('changes-submitted');
-							console.log("Tool successfully added");
+							console.log("document successfully added");
 						}).catch((error) => {
-							console.error("Error adding tool:", error);
+							console.error("Error adding document:", error);
 						});
 					}
-					if (this.newLanguage.name && this.newLanguage.level) {
-						this.newLanguage.id = this.generateId();
+					if (this.editedAbouts.skill.length > 0) {
+						const index = this.editedAbouts.skill.length - 1;
+						if (this.editedAbouts.skill[index].title === '' || this.editedAbouts.skill[index].description === '') {
+							this.editedAbouts.skill.pop();
+						}
 						await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
-							languages: firebase.firestore.FieldValue.arrayUnion(this.newLanguage)
+							skill: this.editedAbouts.skill
 						}).then(() => {
 							this.$emit('changes-submitted');
-							console.log("Language successfully added");
+							console.log("Skill successfully added");
 						}).catch((error) => {
-							console.error("Error adding language:", error);
+							console.error("Error adding skill:", error);
 						});
 					}
-					if (this.newEducation.year && this.newEducation.institution && this.newEducation.location && this.newEducation.course) {
-						this.newEducation.id = this.generateId();
+					if (this.editedAbouts.education.length > 0) {
+						const index = this.editedAbouts.education.length - 1;
+						if (this.editedAbouts.education[index].year === '' || this.editedAbouts.education[index].location === '' ||
+							this.editedAbouts.education[index].institution === '' || this.editedAbouts.education[index].course === '') {
+							this.editedAbouts.education.pop();
+						}
 						await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
-							education: firebase.firestore.FieldValue.arrayUnion(this.newEducation)
+							education: this.editedAbouts.education
 						}).then(() => {
 							this.$emit('changes-submitted');
 							console.log("Education successfully added");
@@ -561,24 +665,33 @@ export default defineComponent({
 							console.error("Error adding education:", error);
 						});
 					}
-					if (this.newExperience.firm && this.newExperience.duration && this.newExperience.role) {
+					if (this.editedAbouts.languages.length > 0) {
+						const index = this.editedAbouts.languages.length - 1;
+						if (this.editedAbouts.languages[index].name === '' || this.editedAbouts.languages[index].level === 0 ) {
+							this.editedAbouts.languages.pop();
+						}
 						await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
-							experience: firebase.firestore.FieldValue.arrayUnion(this.newExperience)
+							languages: this.editedAbouts.languages
 						}).then(() => {
 							this.$emit('changes-submitted');
-							console.log("Experience successfully added");
+							console.log("languages successfully added");
 						}).catch((error) => {
-							console.error("Error adding experience:", error);
+							console.error("Error adding languages:", error);
 						});
 					}
-					if (this.newSkill.title && this.newSkill.description) {
+					if (this.editedAbouts.experience.length > 0) {
+						const index = this.editedAbouts.experience.length - 1;
+						if (this.editedAbouts.experience[index].firm === '' || this.editedAbouts.experience[index].duration === '' ||
+							this.editedAbouts.experience[index].role === '') {
+							this.editedAbouts.experience.pop();
+						}
 						await firebase.firestore().collection('about').doc(this.editedAbouts.id).update({
-							skill: firebase.firestore.FieldValue.arrayUnion(this.newSkill)
+							experience: this.editedAbouts.experience
 						}).then(() => {
 							this.$emit('changes-submitted');
-							console.log("Skill successfully added");
+							console.log("experience successfully added");
 						}).catch((error) => {
-							console.error("Error adding skill:", error);
+							console.error("Error adding experience:", error);
 						});
 					}
 				} else if (this.component === 'services') { //Services
@@ -801,14 +914,7 @@ export default defineComponent({
 				alert(error);
 			}
 		},
-		addBox() {
-			if (this.newBox.name.trim() !== '') {
-				this.editedServices.boxes.push({ id: this.generateId(), name: this.newBox.name });
-				this.newBox.name = '';
-				this.isAddBoxActive = false;
-			}
-		},
-		deepEqual(obj1: any, obj2: any) {
+		deepEqual(obj1: any, obj2: any): boolean {
 			if (obj1 === obj2) return true;
 			if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) return false;
 
@@ -823,7 +929,14 @@ export default defineComponent({
 			}
 			return true;
 		},
-
+		validateLevel(index: number) {
+			if (this.editedAbouts.tool[index].level > 100) {
+				this.editedAbouts.tool[index].level = 100;
+			}
+			if (this.editedAbouts.tool[index].level < 0) {
+				this.editedAbouts.tool[index].level = 0;
+			}
+		}
 	}
 });
 </script>

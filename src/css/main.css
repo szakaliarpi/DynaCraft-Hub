@@ -403,7 +403,7 @@ p {
 
 @media screen and (min-width: 768px) {
     .work-container-image {
-        height: auto;
+        height: 305px;
     }
 }
 
@@ -626,7 +626,6 @@ p {
     }
 }
 
-
 .post-container {
     display: grid;
     gap: 25px;
@@ -649,12 +648,13 @@ p {
 .post-box {
     background-color: #ffde78;
     border-radius: 20px;
-    padding: 35px 20px 20px 20px;
+    padding: 35px 30px 20px 20px;
     position: relative;
 }
 
 @media screen and (min-width: 1200px) {
     .post-box {
+
     }
 }
 
@@ -663,7 +663,7 @@ p {
     font-family: 'Poppins', sans-serif;
     font-size: 21px;
     font-weight: 600;
-    height: 60px;
+    height: 75px;
     line-height: 30px;
     margin-bottom: 15px;
     text-transform: uppercase;
@@ -678,6 +678,7 @@ p {
 @media screen and (min-width: 1200px) {
     .post-title {
         font-size: 21px;
+        height: 75px;
     }
 }
 
@@ -694,13 +695,14 @@ p {
 @media screen and (min-width: 768px) {
     .post-description {
         font-size: 15px;
-        margin-bottom: 50px;
+        margin-bottom: 20px;
     }
 }
 
 @media screen and (min-width: 1200px) {
     .post-description {
         font-size: 18px;
+        height: 210px;
     }
 }
 
@@ -822,7 +824,6 @@ p {
     background-color: #FF8500;
     border-radius: 10px;
     height: 15px;
-    width: 92%;
 }
 
 .education-grid {

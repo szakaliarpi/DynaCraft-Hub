@@ -85,9 +85,8 @@ input {
     font-family: 'Poppins', serif;
     font-size: 20px;
     font-weight: 300;
-    height: 50px;
+    height: 40px;
     line-height: 30px;
-    padding-left: 20px;
     width: 95%;
 }
 
@@ -110,9 +109,9 @@ textarea {
     font-weight: 500;
     line-height: 30px;
     min-height: 100px;
-    padding: 20px;
+    padding: 10px;
     resize: none;
-    width: -webkit-fill-available;
+    width: 95%;
 }
 
 textarea::placeholder {

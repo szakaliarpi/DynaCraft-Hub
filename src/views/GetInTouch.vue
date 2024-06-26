@@ -70,7 +70,7 @@ import Navbar from "@/components/Navbar.vue";
 import {db} from "@/main";
 import {defineComponent} from "vue";
 import {RouteLocationNormalized, RouteLocationNormalizedLoaded} from "vue-router";
-import {Messages, ContactInfo, EmailTemplate} from "@/config/config";
+import {Messages, ContactInfo, EmailTemplate, Subject} from "@/config/config";
 
 
 export default defineComponent({
@@ -80,22 +80,27 @@ export default defineComponent({
 	},
 	data() {
 		return {
-			firstName: '',
-			lastName: '',
-			emailAddress: '',
-			selectedSubject: '',
-			message: '',
-			itIsActive: true,
-			frontendIsActive: false,
-			backendIsActive: false,
-			otherIsActive: false,
-			emailError: '',
-			messageError: '',
-			firstNameError: '',
-			lastNameError: '',
-			subject: '',
-			maxMessageLength: 500,
-			isDisabled: false
+			firstName: '' as string,
+			lastName: '' as string,
+			emailAddress: '' as string,
+			selectedSubject: '' as string,
+			message: '' as string,
+			itIsActive: true as boolean,
+			frontendIsActive: false as boolean,
+			backendIsActive: false as boolean,
+			otherIsActive: false as boolean,
+			emailError: '' as string,
+			messageError: '' as string,
+			firstNameError: '' as string,
+			lastNameError: '' as string,
+			subject: '' as string,
+			maxMessageLength: 500 as number,
+			isDisabled: false as boolean,
+			consulting: Subject.option1,
+			front: Subject.option2,
+			back: Subject.option3,
+			other: Subject.option4,
+
 		};
 	},
 	methods: {
@@ -112,7 +117,7 @@ export default defineComponent({
 					this.frontendIsActive = false;
 					this.backendIsActive = false;
 					this.otherIsActive = false;
-					this.subject = 'IT Consulting';
+					this.subject = this.consulting;
 					break;
 				case 'frontend':
 					this.frontendIsActive = true;
@@ -120,7 +125,7 @@ export default defineComponent({
 					this.itIsActive = false;
 					this.backendIsActive = false;
 					this.otherIsActive = false;
-					this.subject = 'Front-end';
+					this.subject = this.front;
 					break;
 				case 'backend':
 					this.backendIsActive = true;
@@ -128,7 +133,7 @@ export default defineComponent({
 					this.itIsActive = false;
 					this.frontendIsActive = false;
 					this.otherIsActive = false;
-					this.subject = 'Back-end';
+					this.subject = this.back;
 					break;
 				case 'other':
 					this.otherIsActive = true;
@@ -136,11 +141,14 @@ export default defineComponent({
 					this.itIsActive = false;
 					this.frontendIsActive = false;
 					this.backendIsActive = false;
-					this.subject = 'Other';
+					this.subject = this.other;
 					break;
 				default:
 					this.itIsActive = true;
-					this.subject = 'Strategy & Discovery';
+					this.otherIsActive = false;
+					this.frontendIsActive = false;
+					this.backendIsActive = false;
+					this.subject = this.consulting;
 					break;
 			}
 		},
@@ -202,6 +210,9 @@ export default defineComponent({
 				this.message = '';
 				this.itIsActive = true;
 				this.isDisabled = true;
+				this.otherIsActive = false;
+				this.frontendIsActive = false;
+				this.backendIsActive = false;
 				setTimeout(() => {
 					this.isDisabled = false;
 				}, 5000);
