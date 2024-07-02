@@ -12,6 +12,7 @@ export const Messages = {
     message_required: "Message is required",
     message_restriction: "Message cannot exceed 500 characters",
     enter: '(press enter to submit)',
+    delete_error: "Couldn't delete, try again!"
 };
 
 export const ContactInfo = {

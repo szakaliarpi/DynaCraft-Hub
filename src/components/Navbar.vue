@@ -20,14 +20,10 @@
 				</label>
 
 				<ul class="menu__box" :style="{ right: isMenuOpen ? '0' : '-110%' }">
-					<li>
-						<router-link class="menu__item" to="/">Work</router-link>
-					</li>
-					<li>
-						<router-link class="menu__item" to="/nice-to-meet-you">Nice to meet you!</router-link>
-					</li>
-					<li><router-link class="menu__item" to="/services">Services</router-link></li>
-					<li><router-link class="menu__item" to="/get-in-touch">Get in touch</router-link></li>
+					<li><router-link class="menu__item" to="/" @click.native="handleMenuClick">Work</router-link></li>
+					<li><router-link class="menu__item" to="/nice-to-meet-you" @click.native="handleMenuClick">Nice to meet you!</router-link></li>
+					<li><router-link class="menu__item" to="/services" @click.native="handleMenuClick">Services</router-link></li>
+					<li><router-link class="menu__item" to="/get-in-touch" @click.native="handleMenuClick">Get in touch</router-link></li>
 				</ul>
 			</div>
 		</div>
@@ -54,6 +50,15 @@ export default defineComponent({
 		},
 		toggleMenu() {
 			this.isMenuOpen = !this.isMenuOpen;
+		},
+		handleMenuClick(event: MouseEvent) {
+			const target = event.currentTarget as HTMLAnchorElement;
+			const to = target.getAttribute('to');
+			if (to === window.location.pathname) {
+				this.isMenuOpen = false;
+			} else {
+				this.toggleMenu();
+			}
 		},
 	},
 });

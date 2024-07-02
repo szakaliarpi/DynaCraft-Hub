@@ -9,6 +9,7 @@ h2 {
     font-size: 30px;
     font-weight: 600;
     margin: 0;
+    line-height: 40px;
 }
 
 @media screen and (min-width: 1200px) {
@@ -507,6 +508,7 @@ p {
     border-radius: 20px;
     height: 300px;
     max-width: 300px;
+    margin-bottom: 10px;
 }
 
 .hamburger-menu {
@@ -1260,7 +1262,6 @@ ul ul {
     margin-bottom: 50px;
     overflow: hidden;
     padding: 10px;
-    position: relative;
 }
 
 @media screen and (min-width: 1200px) {

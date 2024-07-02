@@ -25,9 +25,9 @@
 						   v-on:change="fileChanged($event, 'case-study')"/>
 					<div v-show="caseStudyFileName" class="file-name">
 						<div>
-							{{ this.caseStudyFileName }}
+							{{ truncateContent(caseStudyFileName) }}
 						</div>
-						<img alt="remove" class="remove" src="../../assets/icons/red-trash.png" @click="removeImage()"/>
+						<img alt="remove" class="remove" src="../../assets/icons/red-trash.png" @click="removeImage"/>
 					</div>
 				</div>
 			</div>
@@ -178,7 +178,7 @@
 						</div>
 
 						<div class="about-addition-box">
-							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png"  @click="addNewItem('experience')"/>
+							<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="addNewItem('experience')"/>
 						</div>
 					</div>
 				</div>
@@ -201,24 +201,27 @@
 					<img v-show="!serviceFileName" alt="upload" class="upload" src="../../assets/icons/upload.png" @click="$refs.service_upload.click()"/>
 					<input ref="service_upload" accept="image/*" class="d-none" type="file" v-on:change="fileChanged($event, 'services')"/>
 					<div v-show="serviceFileName" class="file-name">
-						<div>{{ serviceFileName }}</div>
+						<div>{{ truncateContent(serviceFileName) }}</div>
 						<img alt="remove" class="remove" src="../../assets/icons/red-trash.png" @click="removeImage()"/>
 					</div>
 				</div>
-				<label for="boxes">Boxes <mark>{{ enter }}</mark></label>
+				<label for="boxes">Boxes</label>
 				<div class="box-container">
-					<div v-for="box in editedServices.boxes" :key="box.id">
-						<div class="services-shadowed-boxes">
-							<img alt="cross" src="../../assets/icons/cross.png" class="cross" @click="removeBox(box.id, editedServices.id)"/>
+					<div v-for="(box, index) in editedServices.boxes" :key="box.id">
+						<div :class="{'services-shadowed-boxes' : index !== editedServices.boxes.length-1 || !newBoxAdded }">
+							<img v-if="index !== editedServices.boxes.length-1 || !newBoxAdded" alt="cross" src="../../assets/icons/cross.png"
+								 :class="{'cross' : index !== editedServices.boxes.length-1 || !newBoxAdded }" @click="removeBox(box.id, editedServices.id)"/>
 							{{ box.name }}
+						</div>
+
+						<div v-if="index === editedServices.boxes.length-1 && newBoxAdded">
+							<input v-model="editedServices.boxes[index].name" placeholder="box name" type="text" class="mb-10 mt-10"/>
 						</div>
 					</div>
 				</div>
-				<div v-show="isAddBoxActive">
-					<input v-model="newBox.name" placeholder="box name" type="text" class="mb-10 mt-10"/>
-				</div>
-				<div v-show="!isAddBoxActive" class="about-addition-box">
-					<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="isAddBoxActive = true"/>
+
+				<div class="about-addition-box">
+					<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png" @click="addNewItem('service')"/>
 				</div>
 			</div>
 
@@ -230,9 +233,9 @@
 					   v-on:change="fileChanged($event, 'backend')"/>
 				<div v-show="backendFileName" class="file-name">
 					<div>
-						{{ this.backendFileName }}
+						{{ truncateContent(backendFileName) }}
 					</div>
-					<img alt="remove" class="remove" src="../../assets/icons/red-trash.png" @click="removeImage()"/>
+					<img alt="remove" class="remove" src="../../assets/icons/red-trash.png" @click="removeImage"/>
 				</div>
 
 				<label for="Link">Link</label>
@@ -287,10 +290,6 @@ export default defineComponent({
 			type: Object as PropType<ServiceType>,
 			required: false,
 		},
-		backend: {
-			type: Object as PropType<BackendType>,
-			required: false,
-		},
 		isEditMode: {
 			type: Boolean,
 			required: false
@@ -319,12 +318,6 @@ export default defineComponent({
 			isAddSkillActive: false as boolean,
 			isAddEducationActive: false as boolean,
 			isAddBoxActive: false as boolean,
-			newTool: {} as ToolType,
-			newExperience: {} as ExperienceType,
-			newLanguage: {} as LanguageType,
-			newSkill: {} as SkillType,
-			newEducation: {} as EducationType,
-			newBox: {} as BoxType,
 			updatedTools: [] as ToolType[],
 			updatedSkills: [] as SkillType[],
 			updatedEducations: [] as EducationType[],
@@ -344,6 +337,7 @@ export default defineComponent({
 			newEducationAdded: false as boolean,
 			newExperienceAdded: false as boolean,
 			newServiceAdded: false as boolean,
+			newBoxAdded: false as boolean,
 		};
 	},
 	watch: {
@@ -376,7 +370,6 @@ export default defineComponent({
 			return !this.isModified;
 		},
 		isModified() :any {
-			console.log(this.component);
 			switch (this.component) {
 				case 'case-studies':
 					return JSON.stringify(this.originalCaseStudy) !== JSON.stringify(this.editedCaseStudy);
@@ -443,8 +436,8 @@ export default defineComponent({
 				case 'experience':
 					this.newExperienceAdded = true;
 					if (this.editedAbouts.experience && this.editedAbouts.experience.length > 0) {
-						const lastEducation = this.editedAbouts.experience[this.editedAbouts.experience.length - 1];
-						if (lastEducation.role !== "" && lastEducation.firm !== "" && lastEducation.duration !== "") {
+						const lasExperience = this.editedAbouts.experience[this.editedAbouts.experience.length - 1];
+						if (lasExperience.role !== "" && lasExperience.firm !== "" && lasExperience.duration !== "") {
 							this.editedAbouts.experience.push({id: this.generateId(), role: "", firm: "", duration: ""});
 						}
 					} else {
@@ -452,17 +445,26 @@ export default defineComponent({
 					}
 					break;
 				case 'service':
-
+					this.newBoxAdded = true;
+					if (this.editedServices.boxes && this.editedServices.boxes.length > 0) {
+						const lastService = this.editedServices.boxes[this.editedServices.boxes.length - 1];
+						if (lastService.name !== "") {
+							this.editedServices.boxes.push({id: this.generateId(), name: ""});
+						}
+					} else {
+						this.editedServices.boxes = [{id: this.generateId(), name: ""}];
+					}
 					break;
 				default :
 					break;
 			}
-
 		},
 		closeModal() {
 			this.fileItem = null;
 			this.caseStudyFileName = '';
 			this.serviceFileName = '';
+			this.backendFileName = '';
+			this.editedImages.link = '';
 			this.isAddEducationActive = false;
 			this.isAddSkillActive = false;
 			this.isAddLanguageActive = false;
@@ -474,11 +476,11 @@ export default defineComponent({
 			this.newExperienceAdded = false;
 			this.newEducationAdded = false;
 			this.newServiceAdded = false;
+			this.newBoxAdded = false;
 			this.$emit("close");
 		},
 		async submitChanges() { //edit
 			if (this.isEditMode) {
-				console.log('edit');
 				if (this.component === 'case-studies') {
 					if (this.oldStudyImageUrl === this.editedCaseStudy.image) {
 						await firebase.firestore().collection('studies').doc(this.editedCaseStudy.id!).update({
@@ -538,6 +540,7 @@ export default defineComponent({
 						await firebase.firestore().collection('services').doc(this.editedServices.id!).update({
 							title: this.editedServices.title,
 							description: this.editedServices.description,
+							boxes: this.editedServices.boxes
 						}).then(() => {
 							this.$emit('changes-submitted');
 						});
@@ -556,29 +559,16 @@ export default defineComponent({
 								await firebase.firestore().collection('services').doc(this.editedServices.id!).update({
 									title: this.editedServices.title,
 									description: this.editedServices.description,
-									image: url
+									image: url,
+									boxes: this.editedServices.boxes
 								}).then(() => {
 									this.$emit('changes-submitted');
 								});
 							});
 						});
 					}
-					if (this.newBox.name !== '') {
-						const newBox = { id: this.generateId(), name: this.newBox.name.trim() };
-						await firebase.firestore().collection('services').doc(this.editedServices.id).update({
-							boxes: firebase.firestore.FieldValue.arrayUnion(newBox)
-						}).then(() => {
-							this.$emit('changes-submitted');
-							console.log("Box successfully added");
-						}).catch((error) => {
-							console.error("Error adding box:", error);
-						});
-						this.newBox.name = '';
-						this.isAddBoxActive = false;
-					}
 				}
 			} else { //addition
-				console.log('addition');
 				if (this.component === 'case-studies') { //Studies
 					if (!this.fileItem) {
 						console.error("No file selected for upload.");
@@ -701,12 +691,14 @@ export default defineComponent({
 					}
 					let storageRef = firebase.storage().ref("images/" + this.serviceFileName);
 					let uploadTask = storageRef.put(this.fileItem);
-					let boxesArray: BoxType[] = [];
 
-					if (this.newBox.name) {
-						this.newBox.id = this.generateId();
-						boxesArray.push(this.newBox);
+					if (this.editedServices.boxes.length > 0) {
+						const index = this.editedServices.boxes.length - 1;
+						if (this.editedServices.boxes[index].name === '') {
+							this.editedServices.boxes.pop();
+						}
 					}
+
 					uploadTask.on("state_changed", (snapshot) => {
 						console.log(snapshot);
 					}, (error) => {
@@ -717,7 +709,7 @@ export default defineComponent({
 								title: this.editedServices.title,
 								description: this.editedServices.description,
 								image: url,
-								boxes: boxesArray,
+								boxes: this.editedServices.boxes,
 								timestamp: firebase.firestore.FieldValue.serverTimestamp()
 							}).then(() => {
 								this.$emit('changes-submitted');
@@ -790,6 +782,8 @@ export default defineComponent({
 			this.editedCaseStudy.image = '';
 			this.serviceFileName = '';
 			this.editedServices.image = '';
+			this.backendFileName = '';
+			this.editedImages.image = '';
 		},
 		deleteImage(imageUrl: string) {
 			const imageRef = firebase.storage().refFromURL(imageUrl);
@@ -883,22 +877,15 @@ export default defineComponent({
 		},
 		async removeBox(boxId: string, serviceId: string) {
 			try {
-				// Reference to the specific service document
 				const serviceRef = firebase.firestore().collection('services').doc(serviceId);
-				// Get the document
 				const doc = await serviceRef.get();
 				if (doc.exists) {
-					// Get the service data
 					const serviceData = doc.data();
-					// Check if serviceData and serviceData.boxes are defined
 					if (serviceData && Array.isArray(serviceData.boxes)) {
-						// Filter out the box to be removed
 						const updatedBoxes = serviceData.boxes.filter((box: any) => box.id !== boxId);
 
-						// Update the document with the new array
 						await serviceRef.update({ boxes: updatedBoxes });
 
-						// Update local state
 						this.editedServices.boxes = this.editedServices.boxes.filter((box: any) => box.id !== boxId);
 
 						console.log(`Box with id ${boxId} removed successfully`);
@@ -936,7 +923,13 @@ export default defineComponent({
 			if (this.editedAbouts.tool[index].level < 0) {
 				this.editedAbouts.tool[index].level = 0;
 			}
-		}
+		},
+		truncateContent(text: string): string {
+			if (text.length > 20) {
+				return text.substring(0, 20) + '...';
+			}
+			return text;
+		},
 	}
 });
 </script>

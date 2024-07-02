@@ -8,13 +8,13 @@
 			</div>
 
 			<div class="contact-container">
-				<a href="https://www.linkedin.com/">
+				<a href="https://www.linkedin.com/" target="_blank">
 					<img alt="linkedin" id="linkedin" class="contact-icon" src="../assets/contact/linkedin.svg"/>
 				</a>
-				<a href="https://www.instagram.com//">
+				<a href="https://www.instagram.com/" target="_blank">
 					<img alt="instagram" id="instagram" class="contact-icon" src="../assets/contact/instagram.svg"/>
 				</a>
-				<a href="https://www.facebook.com//">
+				<a href="https://www.facebook.com/" target="_blank">
 					<img alt="facebook" id="facebook" class="contact-icon" src="../assets/contact/facebook.svg"/>
 				</a>
 			</div>

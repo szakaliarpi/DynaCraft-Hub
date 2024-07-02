@@ -1,6 +1,6 @@
 <template>
 	<div class="is-relative">
-		<div v-show="isAdminPage" class="add-box" @click="openModal()">
+		<div v-show="isAdminPage" class="add-box" @click="openModal">
 			<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png"/>
 		</div>
 		<h2 v-show="isAdminPage" v-if="images.length === 0" class="text-center">
@@ -9,7 +9,7 @@
 
 		<div class="backend-container">
 			<div v-for="(image, index) in images" :key="index">
-				<a class="backend-grid-item" :href="image.link">
+				<a class="backend-grid-item" :href="image.link" target="_blank">
 					<div :id="'image-' + index" :style="{ 'background-image': 'url(' + image.image + ')' }" class="is-relative">
 						<div v-show="isAdminPage" class="toolbar">
 							<img alt="remove" src="../../assets/icons/red-trash.png" @click.prevent="removeImage(image.id)"/>
@@ -19,8 +19,7 @@
 			</div>
 		</div>
 
-		<AdminModal :backend="editedImages"
-					:component="component"
+		<AdminModal :component="component"
 					:is-edit-mode="false"
 					:is-open="isAdminModalOpen"
 					@close="closeModal('admin')"
@@ -88,7 +87,6 @@ export default defineComponent({
 			this[type === 'admin' ? 'isAdminModalOpen' : 'isNoticeModalOpen'] = false;
 		},
 		removeImage(id: string) {
-			console.log(id);
 			this.editedImages.id = id;
 			this.isNoticeModalOpen = true;
 		},

@@ -61,6 +61,9 @@
 			</div>
 		</div>
 		<Contact/>
+		<AlertModal :isOpen="isAlertOpen"
+					 :message="alertMessage"
+					 @close="closeModal"/>
 	</div>
 </template>
 
@@ -71,10 +74,13 @@ import {db} from "@/main";
 import {defineComponent} from "vue";
 import {RouteLocationNormalized, RouteLocationNormalizedLoaded} from "vue-router";
 import {Messages, ContactInfo, EmailTemplate, Subject} from "@/config/config";
+import AlertModal from "@/components/modals/AlertModal.vue";
+import {CaseStudyType} from "@/components/types/CaseStudyType";
 
 
 export default defineComponent({
 	components: {
+		AlertModal,
 		Navbar,
 		Contact,
 	},
@@ -100,7 +106,8 @@ export default defineComponent({
 			front: Subject.option2,
 			back: Subject.option3,
 			other: Subject.option4,
-
+			isAlertOpen: false as boolean,
+			alertMessage: '' as string,
 		};
 	},
 	methods: {
@@ -203,7 +210,8 @@ export default defineComponent({
 					sender: `${this.firstName} ${this.lastName}`
 				}
 			}).then(response => {
-				alert(Messages.sent);
+				this.alertMessage = Messages.sent;
+				this.openModal();
 				this.firstName = '';
 				this.lastName = '';
 				this.emailAddress = '';
@@ -218,7 +226,8 @@ export default defineComponent({
 				}, 5000);
 				console.log(response);
 			}).catch(error => {
-				alert(Messages.sending_failed);
+				this.alertMessage = Messages.sending_failed;
+				this.openModal();
 				console.log(error);
 			});
 		},
@@ -261,7 +270,13 @@ export default defineComponent({
 			} else {
 				this.messageError = '';
 			}
-		}
+		},
+		openModal() {
+			this.isAlertOpen = true;
+		},
+		closeModal() {
+			this.isAlertOpen = false;
+		},
 	}
 });
 </script>

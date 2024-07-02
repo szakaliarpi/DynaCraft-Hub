@@ -2,7 +2,7 @@
 	<div class="is-relative">
 		<Navbar v-show="!isAdminPage"></Navbar>
 		<div class="services">
-			<div v-show="!isAdminPage" class="text-center mb-50">
+			<div v-show="!isAdminPage" class="text-center mb-50 mt-10">
 				<img alt="services" class="service-image" src="../../assets/services.svg"/>
 			</div>
 
@@ -10,7 +10,7 @@
 				<img alt="add" class="navbar-icon" src="../../assets/icons/plus.png"/>
 			</div>
 
-			<div v-for="service in services" class="services-container">
+			<div v-for="service in services" class="services-container" :class="{'is-relative' : isAdminPage }">
 				<div v-show="isAdminPage" class="toolbar">
 					<img alt="edit" src="../../assets/icons/edit.png" @click="openModal(true, service)"/>
 					<img alt="remove" src="../../assets/icons/trash.png" @click="removeServices(service.id)"/>

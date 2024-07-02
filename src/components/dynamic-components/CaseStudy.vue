@@ -18,7 +18,7 @@
 					{{ truncateDescription(caseStudy.description) }}
 				</div>
 				<div>
-					<a :href="caseStudy.link" class="button button--white">see more</a>
+					<a :href="caseStudy.link" class="button button--white" target="_blank">see more</a>
 				</div>
 			</div>
 		</div>
@@ -73,6 +73,7 @@ export default defineComponent({
 				timestamp: 0
 			} as CaseStudyType,
 			isEditable: false,
+			deleteError: Messages.delete_error,
 		};
 	},
 	computed: {
@@ -100,13 +101,10 @@ export default defineComponent({
 		},
 		openModal(editMode: boolean, caseStudy: CaseStudyType | null) {
 			if (editMode && caseStudy) {
-				// If in edit mode and caseStudy is provided, set isEditable to true for editing mode
 				this.isEditable = true;
 				this.editedCaseStudy = {...caseStudy};
 			} else {
-				// If not in edit mode or caseStudy is not provided, set isEditable to false for addition mode
 				this.isEditable = false;
-				// Reset editedCaseStudy for addition mode
 				this.editedCaseStudy = {
 					id: "",
 					title: "",
@@ -126,14 +124,24 @@ export default defineComponent({
 			this.editedCaseStudy.id = id;
 			this.isNoticeModalOpen = true;
 		},
-		deleteConfirmed() {
+		async deleteConfirmed() {
 			this.isNoticeModalOpen = false;
+			const caseStudy = this.caseStudies.find(cs => cs.id === this.editedCaseStudy.id);
+			if (caseStudy && caseStudy.image) {
+				const storageRef = firebase.storage().refFromURL(caseStudy.image);
+				await storageRef.delete().catch(error => {
+					console.error("Error removing image: ", error);
+					this.message = this.deleteError;
+					this.isNoticeModalOpen = true;
+					return;
+				});
+			}
 			firebase.firestore().collection('studies').doc(this.editedCaseStudy.id).delete().then(() => {
-				this.getCaseStudiesFromFirebase(); // Refresh the case studies
-				this.isAdminModalOpen = false; // Open the admin modal or perform any other action
+				this.getCaseStudiesFromFirebase();
+				this.isAdminModalOpen = false;
 			}).catch(error => {
 				console.error("Error removing document: ", error);
-				this.message = "Couldn't delete, try again!"
+				this.message = this.deleteError;
 				this.isNoticeModalOpen = true;
 			});
 		}

@@ -109,9 +109,9 @@ textarea {
     font-weight: 500;
     line-height: 30px;
     min-height: 100px;
-    padding: 10px;
+    padding: 10px 0;
     resize: none;
-    width: 95%;
+    width: 100%;
 }
 
 textarea::placeholder {

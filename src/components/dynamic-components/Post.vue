@@ -13,7 +13,7 @@
 				<div class="post-description">{{ post.description }}</div>
 				<div class="post-bottom-container">
 					<div class="post-date">{{ post.date }}</div>
-					<a :href="post.link" class="small-button button--orange">Read more</a>
+					<a :href="post.link" class="small-button button--orange" target="_blank">Read more</a>
 				</div>
 			</div>
 
